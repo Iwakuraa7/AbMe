@@ -1,3 +1,7 @@
+* {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -65,4 +69,36 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.authCard {
+  /* border: 1px hotpink dotted; */
+  border-radius: 12px;
+  background-color: darkseagreen;
+  color: white;
+  height: 60vh;
+  width: 25vw;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10%;
+}
+
+.inputFieldsBox {
+  /* border: 1px hotpink dotted; */
+  display: flex;
+  flex-direction: column;
+  row-gap: 2%;
+}
+
+.authMessageBox {
+  /* border: 1px hotpink dotted; */
+  margin-top: 3%;
+}
+
+input {
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  width: 20vw;
+  height: 3vh;
 }
