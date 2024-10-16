@@ -7,6 +7,7 @@ using AbMe_backend.Dtos.AppUser;
 using AbMe_backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AbMe_backend.Controllers
 {
@@ -78,10 +79,54 @@ namespace AbMe_backend.Controllers
             }
         }
 
-        [HttpGet("test")]
-        public IActionResult test()
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginAppUserDto userDto)
         {
-            return Ok("Nigga!");
+            try
+            {
+                if(!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == userDto.Username);
+
+                if(user == null)
+                {
+                    var errorResponse = new 
+                    {
+                        succeeded = false,
+                        message = "User with this username is not found"
+                    };
+
+                    return Unauthorized(errorResponse);
+                }
+
+                var loginResponse = await _signInManager.CheckPasswordSignInAsync(user, userDto.Password, false);
+
+                if(!loginResponse.Succeeded)
+                {
+                    var errorResponse = new
+                    {
+                        succeeded = false,
+                        message = "Username not found or/and password is incorrect"
+                    };
+
+                    return Unauthorized(errorResponse);
+                }
+
+                var response = new 
+                {
+                    succeeded = true,
+                    message = "Successfully logged in"
+                };
+
+                return Ok(response);
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, e);
+            }
         }
     }
 }
