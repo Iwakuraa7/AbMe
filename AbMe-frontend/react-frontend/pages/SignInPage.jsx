@@ -12,18 +12,18 @@ export default function SingInPage() {
     return(
         <>
         <form onSubmit={signInUser}>
-        <div class='authCard'>
-            <div class='authMessageBox'>
+        <div className='authCard'>
+            <div className='authMessageBox'>
                 <h2>Welcome back</h2>
             </div>
-            <div class='inputFieldsBox'>
+            <div className='inputFieldsBox'>
                 <div>
-                    <label for='usernameField'>Username</label><br/>
+                    <label htmlFor='usernameField'>Username</label><br/>
                     <input onChange={(e) => {setUsername(e.target.value)}} id='usernameField' type='text'/>
                 </div>
 
                 <div>
-                    <label for='passwordField'>Password</label><br/>
+                    <label htmlFor='passwordField'>Password</label><br/>
                     <input onChange={(e) => {setPassword(e.target.value)}} id='passwordField' type='password'/>
                 </div>
             </div>
