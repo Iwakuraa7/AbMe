@@ -3,10 +3,32 @@ import { useState } from "react";
 export default function SingInPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [apiResponse, setApiResponse] = useState({});
 
-    function signInUser(e) {
+    async function signInUser(e) {
         e.preventDefault();
-        console.log(username, password);
+        
+        const response = await fetch("http://localhost:5078/api/account/login", {
+            method: "POST",
+            headers: {
+                "Accept": "*/*",
+                "Content-Type": "application/json"
+            },
+            body : JSON.stringify({
+                Username: username,
+                password: password
+            })
+        })
+
+        const data = await response.json();
+
+        if(data.succeeded) {
+            setApiResponse(data);
+            console.log(data.message);
+        }
+        else {
+            console.log(data.message);
+        }
     }
 
     return(
