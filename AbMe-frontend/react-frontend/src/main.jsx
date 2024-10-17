@@ -1,12 +1,14 @@
-import { StrictMode } from 'react';
+import { StrictMode, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import App from './App.jsx';
 import './index.css';
 import HomePage from '../pages/HomePage.jsx';
 import SingInPage from '../pages/SignInPage.jsx';
 import SignUpPage from '../pages/SignUpPage.jsx';
 import NotFoundPage from '../pages/NotFoundPage.jsx';
+import MainPage from '../pages/MainPage.jsx';
+import { UserProvider } from './contexts/UserContext.jsx';
+import LogoutPage from '../pages/LogoutPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -15,17 +17,32 @@ const router = createBrowserRouter([
     errorElement: <NotFoundPage/>
   },
   {
-    path: '/signin',
+    path: 'signin',
     element: <SingInPage/>
   },
   {
     path: 'signup',
     element: <SignUpPage/>
+  },
+  {
+    path: 'home',
+    element: <MainPage/>
+  },
+  {
+    path: 'logout',
+    element: <LogoutPage/>
   }
 ])
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router}/>
+    {/* <UserContext.Provider value={{isUserLoggedIn, setIsUserLoggedIn}}> */}
+    <UserProvider>
+      <RouterProvider router={router}/>
+    </UserProvider>
+    {/* </UserContext.Provider> */}
   </StrictMode>,
+  // <StrictMode>
+  //   <RouterProvider router={router}/>
+  // </StrictMode>,
 )

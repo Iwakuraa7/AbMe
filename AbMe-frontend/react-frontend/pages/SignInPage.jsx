@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../src/contexts/UserContext.jsx";
 
 export default function SingInPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [apiResponse, setApiResponse] = useState({});
+    const navigate = useNavigate();
+    const { isUserLoggedIn, setIsUserLoggedIn } = useContext(UserContext);
+
+    // let {isUserLoggedIn, setIsUserLoggedIn} = useContext(UserContext);
 
     async function signInUser(e) {
         e.preventDefault();
@@ -11,6 +17,7 @@ export default function SingInPage() {
         const response = await fetch("http://localhost:5078/api/account/login", {
             method: "POST",
             headers: {
+                "Authorization": `Bearer ${localStorage.getItem('token')}`,
                 "Accept": "*/*",
                 "Content-Type": "application/json"
             },
@@ -24,12 +31,27 @@ export default function SingInPage() {
 
         if(data.succeeded) {
             setApiResponse(data);
+            setIsUserLoggedIn(true);
+            localStorage.setItem('token', data.userInfo.token);
             console.log(data.message);
+            console.log(data);
         }
         else {
             console.log(data.message);
         }
     }
+
+    useEffect(() => {
+        if(localStorage.getItem('token') !== null) {
+            navigate('/logout');
+        }
+    })
+
+    useEffect(() => {
+        if(apiResponse.succeeded) {
+            navigate('/home');
+        }
+    }, [apiResponse])
 
     return(
         <>

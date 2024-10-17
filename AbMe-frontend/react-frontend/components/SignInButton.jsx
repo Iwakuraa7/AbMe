@@ -6,8 +6,6 @@ export default function SignInButton() {
     const goToSignInPage = () => {navigate('/signin')}
 
     return (
-        <>
         <button onClick={goToSignInPage}>Sign in</button>
-        </>
     )
 }
