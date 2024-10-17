@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using AbMe_backend.Dtos.AppUser;
+using AbMe_backend.Interfaces;
 using AbMe_backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using AbMe_backend.Dtos;
 
 namespace AbMe_backend.Controllers
 {
@@ -17,11 +19,13 @@ namespace AbMe_backend.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly ITokenService _tokenService;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
@@ -46,10 +50,18 @@ namespace AbMe_backend.Controllers
 
                     if(roleResult.Succeeded)
                     {
+                        var registeredUser = new NewAppUserDto
+                        {
+                            Name = appUser.UserName,
+                            Email = appUser.Email,
+                            Token = _tokenService.CreateToken(appUser)
+                        };
+
                         var response = new
                         {
                             succeeded =  true,
-                            message = "Account successfully created!"
+                            message = "Account successfully created!",
+                            userInfo = registeredUser
                         };
                         return Ok(response);
                     }
@@ -115,10 +127,18 @@ namespace AbMe_backend.Controllers
                     return Unauthorized(errorResponse);
                 }
 
+                var loggedUser = new NewAppUserDto
+                {
+                    Name = user.UserName,
+                    Email = user.Email,
+                    Token = _tokenService.CreateToken(user)
+                };                
+
                 var response = new 
                 {
                     succeeded = true,
-                    message = "Successfully logged in"
+                    message = "Successfully logged in",
+                    userInfo = loggedUser
                 };
 
                 return Ok(response);

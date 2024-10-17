@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using AbMe_backend.Models;
+using AbMe_backend.Interfaces;
+using MoodyzeAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +42,8 @@ builder.Services.AddCors(options =>
         .AllowCredentials();
     });
 });
+
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
