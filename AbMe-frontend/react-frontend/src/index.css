@@ -98,6 +98,7 @@ button:focus-visible {
 input {
   border: none;
   outline: none;
+  background-color: hotpink;
   border-radius: 5px;
   width: 20vw;
   height: 3vh;

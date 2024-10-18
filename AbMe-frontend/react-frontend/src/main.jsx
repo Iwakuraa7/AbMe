@@ -9,6 +9,7 @@ import NotFoundPage from '../pages/NotFoundPage.jsx';
 import MainPage from '../pages/MainPage.jsx';
 import { UserProvider } from './contexts/UserContext.jsx';
 import LogoutPage from '../pages/LogoutPage.jsx';
+import SearchMusicPage from '../pages/SearchMusicPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: 'logout',
     element: <LogoutPage/>
+  },
+  {
+    path: 'search/music',
+    element: <SearchMusicPage/>
   }
 ])
 
