@@ -6,6 +6,7 @@ const CLIENT_SECRET = '0233d3de035f42be8d891773b009a1b5';
 export default function SearchMusic() {
     const [searchInput, setSearchInput] = useState('');
     const [albums, setAlbums] = useState([]);
+    const [tracks, setTracks] = useState([]);
 
     useEffect(() => {
         var authParams = {
@@ -35,13 +36,14 @@ export default function SearchMusic() {
             }
         }
 
-        var artistId = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=artist', searchParams)
-            .then(response => response.json())
-            .then(data => { return data.artists.items[0].id });
+        // var artistId = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=artist', searchParams)
+        //     .then(response => response.json())
+        //     .then(data => { return data.artists.items[0].id });
 
-        var albums = await fetch('https://api.spotify.com/v1/artists/' + artistId + '/albums' + '?include_groups=album&limit=50', searchParams)
+        // Returns an array of artists, albums, tracks by the given query
+        var albums = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=album,artist,track', searchParams)
             .then(response => response.json())
-            .then(data => {console.log(data); setAlbums(data.items)});
+            .then(data => {console.log(data); setTracks(data.tracks.items); setAlbums(data.albums.items)});
 
         console.log(albums);
     }
@@ -49,13 +51,25 @@ export default function SearchMusic() {
     return (
         <>
         <input type='text' onChange={(e) => {setSearchInput(e.target.value)}}></input>
-        <button onClick={searchMusic}>Search</button>
-        <div>
+        <button onClick={searchMusic}>Search</button><br/>
+        <h2>Albums</h2>
+        <div className='searchBox'>
             {albums.map(album => {
                 return(
-                    <div>
+                    <div className="searchResultEntity">
                         <img src={album.images[1].url}></img><br/>
                         <h3>{album.name}</h3>
+                    </div>
+                )
+            })}
+        </div>
+        <h2>Tracks</h2>
+        <div className='searchBox'>
+            {tracks.map(track => {
+                return(
+                    <div className="searchResultEntity">
+                        <img src={track.album.images[1].url}></img><br/>
+                        <h3>{track.name}</h3>
                     </div>
                 )
             })}
