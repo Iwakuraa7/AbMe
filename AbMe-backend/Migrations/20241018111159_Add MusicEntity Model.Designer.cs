@@ -4,6 +4,7 @@ using AbMe_backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbMe_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241018111159_Add MusicEntity Model")]
+    partial class AddMusicEntityModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,8 +98,10 @@ namespace AbMe_backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AppUserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ArtistName")
@@ -113,7 +118,7 @@ namespace AbMe_backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("AppUserId1");
 
                     b.ToTable("MusicEntities");
                 });
@@ -147,13 +152,13 @@ namespace AbMe_backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "72007113-61f1-4993-8e59-59f451069968",
+                            Id = "0a6beaf5-97e4-457b-a155-8fe8f8550883",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "da9681d5-8eeb-4f3a-8619-ac713ff20bcc",
+                            Id = "8ef6a564-463f-4b1e-aede-107e40327e21",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -269,9 +274,7 @@ namespace AbMe_backend.Migrations
                 {
                     b.HasOne("AbMe_backend.Models.AppUser", "AppUser")
                         .WithMany("MusicEntities")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserId1");
 
                     b.Navigation("AppUser");
                 });
