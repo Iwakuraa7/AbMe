@@ -60,11 +60,11 @@ namespace AbMe_backend.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if(userId == null)
-                return NotFound(new {succeeded = false, message = "User not found"});
+                return NotFound(new { succeeded = false, message = "User not found" });
 
             var musicEntities = await _musicEntityRepo.GetUserMusicEntitiesAsync(userId);
 
-            return Ok(musicEntities.Select(m => m.fromModelToDto()));
+            return Ok(new { succeeded = true ,musicData = musicEntities.Select(m => m.fromModelToDto()).OrderByDescending(m => m.Id) });
         }
     }
 }
