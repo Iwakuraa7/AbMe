@@ -5,8 +5,9 @@ const CLIENT_SECRET = '0233d3de035f42be8d891773b009a1b5';
 
 export default function SearchMusic() {
     const [searchInput, setSearchInput] = useState('');
-    const [albums, setAlbums] = useState([]);
-    const [tracks, setTracks] = useState([]);
+    const [albums, setAlbums] = useState(null);
+    const [tracks, setTracks] = useState(null);
+    const [musicData, setMusicData] = useState(null);
 
     useEffect(() => {
         var authParams = {
@@ -48,28 +49,90 @@ export default function SearchMusic() {
         console.log(albums);
     }
 
+    async function addAlbumData(musicData) {
+        var response = await fetch("http://localhost:5078/api/music/create", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                Title: musicData.name,
+                ArtistName: musicData.artists[0].name,
+                ImageUrl: musicData.images[1].url
+            })
+        })
+
+        var data = await response.json();
+        if(data.succeeded) {
+            console.log(data.message);
+        }
+        else {
+            console.log(data.message);
+        }
+    }
+
+    async function addTrackData(musicData) {
+        var response = await fetch("http://localhost:5078/api/music/create", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                Title: musicData.name,
+                ArtistName: musicData.artists[0].name,
+                ImageUrl: musicData.album.images[1].url
+            })
+        })
+
+        var data = await response.json();
+        if(data.succeeded) {
+            console.log(data.message);
+        }
+        else {
+            console.log(data.message);
+        }
+    }
+
     return (
         <>
         <input type='text' onChange={(e) => {setSearchInput(e.target.value)}}></input>
         <button onClick={searchMusic}>Search</button><br/>
-        <h2>Albums</h2>
+        {albums && <h2>Albums</h2>}
         <div className='searchBox'>
-            {albums.map(album => {
+            {albums && albums.map((album, index) => {
                 return(
-                    <div className="searchResultEntity">
+                    <div
+                    key={index}
+                    className="searchResultEntity"
+                    onMouseEnter={() => {setMusicData(album)}}
+                    onMouseLeave={() => {setMusicData(null)}}
+                    >
                         <img src={album.images[1].url}></img><br/>
                         <h3>{album.name}</h3>
+                        {musicData === album && (
+                            <button onClick={() => addAlbumData(album)}>Add</button>
+                        )}
                     </div>
                 )
             })}
         </div>
-        <h2>Tracks</h2>
+        {tracks && <h2>Tracks</h2>}
         <div className='searchBox'>
-            {tracks.map(track => {
+            {tracks && tracks.map((track, index) => {
                 return(
-                    <div className="searchResultEntity">
+                    <div
+                    key={index}
+                    className="searchResultEntity"
+                    onMouseEnter={() => {setMusicData(track); console.log(track)}}
+                    onMouseLeave={() => {setMusicData(null)}}
+                    >
                         <img src={track.album.images[1].url}></img><br/>
                         <h3>{track.name}</h3>
+                        {musicData === track && (
+                            <button onClick={() => {addTrackData(track)}}>Add</button>
+                        )}
                     </div>
                 )
             })}
