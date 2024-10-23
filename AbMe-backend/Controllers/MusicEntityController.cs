@@ -54,17 +54,19 @@ namespace AbMe_backend.Controllers
             return Ok(musicEntities.Select(m => m.fromModelToDto()));
         }
 
-        [HttpGet("my")]
-        public async Task<IActionResult> GetUserMusicEntities()
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetUserMusicEntities([FromRoute] string username)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByNameAsync(username);
 
-            if(userId == null)
+            if(user == null)
+            {
                 return NotFound(new { succeeded = false, message = "User not found" });
+            }
 
-            var musicEntities = await _musicEntityRepo.GetUserMusicEntitiesAsync(userId);
+            var musicEntities = await _musicEntityRepo.GetUserMusicEntitiesAsync(user.Id);
 
-            return Ok(new { succeeded = true ,musicData = musicEntities.Select(m => m.fromModelToDto()).OrderByDescending(m => m.Id) });
+            return Ok(new { succeeded = true, musicData = musicEntities.Select(m => m.fromModelToDto()).OrderByDescending(m => m.Id) });
         }
     }
 }
