@@ -50,18 +50,11 @@ namespace AbMe_backend.Controllers
 
                     if(roleResult.Succeeded)
                     {
-                        var registeredUser = new NewAppUserDto
-                        {
-                            Name = appUser.UserName,
-                            Email = appUser.Email,
-                            Token = _tokenService.CreateToken(appUser)
-                        };
-
                         var response = new
                         {
                             succeeded =  true,
                             message = "Account successfully created!",
-                            userInfo = registeredUser
+                            token = _tokenService.CreateToken(appUser)
                         };
                         return Ok(response);
                     }
