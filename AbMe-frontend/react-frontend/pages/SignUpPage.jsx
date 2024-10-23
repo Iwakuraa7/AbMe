@@ -1,11 +1,9 @@
-import { useContext, useEffect, useState } from "react"
-import { UserContext } from "../src/contexts/UserContext.jsx";
+import { useEffect, useState } from "react"
 
 export default function SignUpPage() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { isUserLoggedIn, setIsUserLoggedIn } = useContext(UserContext);
 
     async function registerNewUser(e) {
         e.preventDefault();
@@ -24,8 +22,8 @@ export default function SignUpPage() {
 
         const data = await response.json();
         if(data.succeeded) {
+            localStorage.setItem('token', data.token);
             console.log(data);
-            setIsUserLoggedIn(true);
             console.log(data.message);
         }
         else {
@@ -38,10 +36,6 @@ export default function SignUpPage() {
             navigate('/logout');
         }
     })
-
-    useEffect(() => {
-        console.log(isUserLoggedIn);
-    }, [isUserLoggedIn])
 
     return(
         <>
