@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom";
 
 export default function UserPage() {
     const [musicData, setMusicData] = useState(null);
+    const params = useParams();
 
     useEffect(() => {
         async function fetchMusicData() {
-            var response = await fetch("http://localhost:5078/api/music/my", {
+            var response = await fetch(`http://localhost:5078/api/music/${params.username}`, {
                 method: "GET",
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem('token'),
@@ -18,6 +20,7 @@ export default function UserPage() {
             if(data.succeeded) {
                 setMusicData(data.musicData);
                 console.log("+ userMusicData");
+                console.log(data.id);
             }
             else {
                 console.log("sth went wrong while gettin userMusicData...");
