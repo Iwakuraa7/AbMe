@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 export default function UserPage() {
     const [musicData, setMusicData] = useState(null);
+    const [expandedHobby, setExpandedHobby] = useState(null);
     const params = useParams();
 
     useEffect(() => {
@@ -20,7 +21,6 @@ export default function UserPage() {
             if(data.succeeded) {
                 setMusicData(data.musicData);
                 console.log("+ userMusicData");
-                console.log(data.id);
             }
             else {
                 console.log("sth went wrong while gettin userMusicData...");
@@ -30,10 +30,39 @@ export default function UserPage() {
         fetchMusicData();
     }, [])
 
-    return (
+    const renderMusicContent = () => {
+        return(
         <div>
-            <h2>My profile</h2>
-            <div className="userHobbyBox">
+            <h2>{params.username} music taste</h2>
+            {musicData.map(music => (
+                <img key={music.id} src={music.imageUrl} alt={`Music photo ${music.id + 1}`}/>
+            ))}
+        </div>)
+    }
+
+
+    return (
+        <>
+        {expandedHobby !== null ? (renderMusicContent()) : (
+        <div>
+            <h2>{params.username}</h2>
+            <div onClick={() => setExpandedHobby("music")} className="userHobbyBox">
+                <div className="userHobbyBoxImages">
+                    {musicData && (
+                        musicData.slice(0, 4).map(music => (
+                            <img key={music.id} src={music.imageUrl} alt={`Music photo ${music.id + 1}`}/>
+                        ))
+                    )}
+                </div>
+                <div className="userHobbyBoxTitle">
+                    <strong>Music</strong>
+                </div>
+            </div>
+        </div>
+        )}
+        {/* <div>
+            <h2>{params.username}</h2>
+            <div onClick={() => setExpandedHobby("music")} className="userHobbyBox">
                 <div className="userHobbyBoxImages">
                     {musicData && (
                         musicData.slice(0, 4).map(music => {
@@ -47,6 +76,7 @@ export default function UserPage() {
                     <strong>Music</strong>
                 </div>
             </div>
-        </div>
+        </div> */}
+        </>
     )
 }
