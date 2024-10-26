@@ -25,6 +25,23 @@ namespace AbMe_backend.Repositories
             return musicEntity;
         }
 
+        public async Task<MusicEntity?> ExistsAsync(int id)
+        {
+            var musicEntity = await _context.MusicEntities.FirstOrDefaultAsync(m => m.Id == id);
+
+            return musicEntity;
+        }
+
+        public async Task<MusicEntity?> DeleteAsync(int id)
+        {
+            var musicEntity = await ExistsAsync(id);
+
+            _context.Remove(musicEntity);
+            await _context.SaveChangesAsync();
+            
+            return musicEntity;
+        }
+
         public async Task<List<MusicEntity>> GetMusicEntitiesAsync()
         {
             return await _context.MusicEntities.Include(m => m.AppUser).ToListAsync();
