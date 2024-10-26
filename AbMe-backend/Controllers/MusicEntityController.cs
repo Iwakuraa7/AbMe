@@ -7,6 +7,8 @@ using AbMe_backend.Dtos.MusicEntity;
 using AbMe_backend.Interfaces;
 using AbMe_backend.Mappers;
 using AbMe_backend.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +46,28 @@ namespace AbMe_backend.Controllers
             await _musicEntityRepo.CreateAsync(musicEntityModel);
 
             return Ok(new {succeeded = true, message = "Successfully created a new musicEntity"});
+        }
+
+        // [Authorize]
+        [HttpDelete("delete/{musicId:int}")]
+        public async Task<IActionResult> Delete([FromRoute] int musicId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if(userId == null)
+                return Unauthorized(new {succeeded = false, message = "User is not logged in"});
+
+            var musicToDelete = await _musicEntityRepo.ExistsAsync(musicId);
+
+            if(musicToDelete == null)
+                return NotFound(new {succeeded = false, message = "Music data with the id does not exist"});
+
+            if(userId != musicToDelete.AppUserId)
+                return StatusCode(403, new {succeeded = false, message = "Forbidden to delete other user's music data"});
+
+            await _musicEntityRepo.DeleteAsync(musicId);
+
+            return Ok(new {succeeded = true, message = "Successfully deleted music entity"});
         }
 
         [HttpGet]
