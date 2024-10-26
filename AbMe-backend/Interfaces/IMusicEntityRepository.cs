@@ -11,5 +11,7 @@ namespace AbMe_backend.Interfaces
         Task<List<MusicEntity>> GetMusicEntitiesAsync();
         Task<List<MusicEntity>> GetUserMusicEntitiesAsync(string userId);
         Task<MusicEntity> CreateAsync(MusicEntity musicEntity);
+        Task<MusicEntity?> DeleteAsync(int id);
+        Task<MusicEntity?> ExistsAsync(int id);
     }
 }
