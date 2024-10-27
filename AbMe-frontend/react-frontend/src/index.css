@@ -159,3 +159,25 @@ input {
   height: 20px;
   text-align: center;
 }
+
+.hobbyRollBox {
+  /* border: 1px blue dotted; */
+  display: flex;
+  flex-direction: row;
+  background-color: #e9e9e9aa;
+  width: 100vw;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Prevent vertical scrolling */
+  padding: 20px; /* Optional padding for aesthetics */
+  box-sizing: border-box;
+}
+
+.hobbyRollBox::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hobbyRollBox {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
