@@ -10,29 +10,36 @@ export default function SingInPage() {
     async function signInUser(e) {
         e.preventDefault();
         
-        const response = await fetch("http://localhost:5078/api/account/login", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem('token')}`,
-                "Accept": "*/*",
-                "Content-Type": "application/json"
-            },
-            body : JSON.stringify({
-                Username: username,
-                password: password
+        try
+        {
+            const response = await fetch("http://localhost:5078/api/account/login", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                    "Accept": "*/*",
+                    "Content-Type": "application/json"
+                },
+                body : JSON.stringify({
+                    Username: username,
+                    password: password
+                })
             })
-        })
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if(data.succeeded) {
-            setApiResponse(data);
-            localStorage.setItem('token', data.userInfo.token);
-            console.log(data.message);
-            console.log(data);
+            if(data.succeeded)
+            {
+                setApiResponse(data);
+                localStorage.setItem('token', data.userInfo.token);
+                console.log(data.message);
+                console.log(data);
+            }
+            else
+                console.error(data.message);
         }
-        else {
-            console.log(data.message);
+        catch(err)
+        {
+            console.error(err);
         }
     }
 

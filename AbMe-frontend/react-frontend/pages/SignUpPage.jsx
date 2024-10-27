@@ -7,27 +7,35 @@ export default function SignUpPage() {
 
     async function registerNewUser(e) {
         e.preventDefault();
-        const response = await fetch("http://localhost:5078/api/account/register", {
-            method: "POST",
-            headers: {
-                "Accept": "*/*",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                Username: username,
-                Email: email,
-                Password: password
-            })
-        });
 
-        const data = await response.json();
-        if(data.succeeded) {
-            localStorage.setItem('token', data.token);
-            console.log(data);
-            console.log(data.message);
+        try
+        {
+            const response = await fetch("http://localhost:5078/api/account/register", {
+                method: "POST",
+                headers: {
+                    "Accept": "*/*",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    Username: username,
+                    Email: email,
+                    Password: password
+                })
+            });
+
+            const data = await response.json();
+            if(data.succeeded)
+            {
+                localStorage.setItem('token', data.token);
+                console.log(data);
+                console.log(data.message);
+            }
+            else
+                console.log(data.message)
         }
-        else {
-            console.log(data.message)
+        catch(err)
+        {
+            console.error(err);
         }
     }
 
