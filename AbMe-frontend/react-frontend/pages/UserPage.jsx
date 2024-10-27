@@ -6,6 +6,7 @@ export default function UserPage() {
     const [isOwner, setIsOwner] = useState(null);
     const [musicData, setMusicData] = useState(null);
     const [expandedHobby, setExpandedHobby] = useState(null);
+    const [musicToDelete, setMusicToDelete] = useState(null);
     const params = useParams();
 
     useEffect(() => {
@@ -82,10 +83,16 @@ export default function UserPage() {
             <h2>{params.username} music taste</h2>
             <button onClick={() => setExpandedHobby(null)}>Back</button>
             {musicData.map(music => (
-                <div>
+                <div
+                key={music.id}
+                className="searchResultEntity"
+                onMouseEnter={() => setMusicToDelete(music.id)}
+                onMouseLeave={() => setMusicToDelete(null)}>
+
                 <img key={music.id} src={music.imageUrl} alt={`Music photo ${music.id + 1}`}/>
-                {isOwner && (
-                    <button onClick={() => deleteMusicData(music.id)}>Delete</button>
+
+                {isOwner && musicToDelete === music.id && (
+                    <button onClick={() => deleteMusicData(musicToDelete)}>Delete</button>
                 )}
                 </div>
             ))}
