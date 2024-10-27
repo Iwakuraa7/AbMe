@@ -23,8 +23,10 @@ export default function UserPage() {
 
                 var data = await response.json();
 
-                if(data.succeeded)
+                if(data.succeeded) {
                     setMusicData(data.musicData);
+                    console.log(data.musicData);
+                }
 
                 else
                     console.error("sth went wrong while gettin userMusicData...");
@@ -82,6 +84,7 @@ export default function UserPage() {
         <div>
             <h2>{params.username} music taste</h2>
             <button onClick={() => setExpandedHobby(null)}>Back</button>
+            <div className="hobbyRollBox">
             {musicData.map(music => (
                 <div
                 key={music.id}
@@ -90,12 +93,13 @@ export default function UserPage() {
                 onMouseLeave={() => setMusicToDelete(null)}>
 
                 <img key={music.id} src={music.imageUrl} alt={`Music photo ${music.id + 1}`}/>
-
+                <h2>{music.title}</h2>
                 {isOwner && musicToDelete === music.id && (
                     <button onClick={() => deleteMusicData(musicToDelete)}>Delete</button>
                 )}
                 </div>
             ))}
+            </div>
         </div>)
     }
 
