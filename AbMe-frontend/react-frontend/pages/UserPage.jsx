@@ -10,55 +10,69 @@ export default function UserPage() {
 
     useEffect(() => {
         async function fetchMusicData() {
-            var response = await fetch(`http://localhost:5078/api/music/${params.username}`, {
-                method: "GET",
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem('token'),
-                    "Content-Type": "application/json",
-                }
-            })
+            try
+            {
+                var response = await fetch(`http://localhost:5078/api/music/${params.username}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem('token'),
+                        "Content-Type": "application/json",
+                    }
+                })
 
-            var data = await response.json();
+                var data = await response.json();
 
-            if(data.succeeded) {
-                setMusicData(data.musicData);
+                if(data.succeeded)
+                    setMusicData(data.musicData);
+
+                else
+                    console.error("sth went wrong while gettin userMusicData...");
             }
-            else {
-                console.log("sth went wrong while gettin userMusicData...");
+            catch(err)
+            {
+                console.error(err);
             }
         }
 
         function checkOwnership() {
             var token = localStorage.getItem('token');
             var userInfo = jwtDecode(token);
-            console.log(userInfo);
 
-            if(userInfo.given_name === params.username) {
+            if(userInfo.given_name === params.username)
                 setIsOwner(true);
-            }
+
+            else
+                setIsOwner(false);
         }
 
         fetchMusicData();
         checkOwnership();
-    }, [])
+    }, [params.username])
 
     async function deleteMusicData(musicId) {
-        var response = await fetch(`http://localhost:5078/api/music/delete/${musicId}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem('token'),
-                "Content-Type": "application/json"
+        try
+        {
+            var response = await fetch(`http://localhost:5078/api/music/delete/${musicId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem('token'),
+                    "Content-Type": "application/json"
+                }
+            })
+
+            var data = await response.json();
+
+            if(data.succeeded)
+            {
+                setMusicData((prevData) => prevData.filter(m => m.id !== musicId));
+                console.log(data.message);
             }
-        })
-
-        var data = await response.json();
-
-        if(data.succeeded) {
-            musicData.splice(musicId, musicId);
-            console.log(data.message);
+            else
+                console.errorr("sth went wrong during deletion....");
         }
-        else {
-            console.log("sth went wrong during deletion....");
+        catch(err)
+        {
+            console.error(err);
         }
     }
 
@@ -71,7 +85,7 @@ export default function UserPage() {
                 <div>
                 <img key={music.id} src={music.imageUrl} alt={`Music photo ${music.id + 1}`}/>
                 {isOwner && (
-                    <button onClick={() =>deleteMusicData(music.id)}>Delete</button>
+                    <button onClick={() => deleteMusicData(music.id)}>Delete</button>
                 )}
                 </div>
             ))}
@@ -80,7 +94,11 @@ export default function UserPage() {
 
     return (
         <>
-        {expandedHobby !== null ? (renderMusicContent()) : (
+        {expandedHobby !== null
+        ?
+        (renderMusicContent())
+        :
+        (
         <div>
             <h2>{params.username}</h2>
             <div onClick={() => setExpandedHobby("music")} className="userHobbyBox">
@@ -97,23 +115,6 @@ export default function UserPage() {
             </div>
         </div>
         )}
-        {/* <div>
-            <h2>{params.username}</h2>
-            <div onClick={() => setExpandedHobby("music")} className="userHobbyBox">
-                <div className="userHobbyBoxImages">
-                    {musicData && (
-                        musicData.slice(0, 4).map(music => {
-                            return(
-                                <img key={music.id} src={music.imageUrl} alt={`Music photo ${music.id + 1}`}/>
-                            )
-                        })
-                    )}
-                </div>
-                <div className="userHobbyBoxTitle">
-                    <strong>Music</strong>
-                </div>
-            </div>
-        </div> */}
         </>
     )
 }
