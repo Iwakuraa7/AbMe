@@ -21,6 +21,7 @@ export default function MainPage() {
         <h1>Main Page</h1>
         <button onClick={() => {navigate(`/user/${userInfo.given_name}`)}}>My profile</button>
         <button onClick={() => navigate('/search/music')}>Search music</button>
+        <button onClick={() => navigate('/search/book')}>Search books</button>
         <LogoutButton/>
         </>
     )
