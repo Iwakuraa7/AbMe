@@ -93,6 +93,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IMusicEntityRepository, MusicEntityRepository>();
+builder.Services.AddScoped<IBookEntityRepository, BookEntityRepository>();
 
 var app = builder.Build();
 
