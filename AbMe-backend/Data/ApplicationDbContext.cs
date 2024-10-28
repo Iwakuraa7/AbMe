@@ -17,6 +17,7 @@ namespace AbMe_backend.Data
         }        
         
         public DbSet<MusicEntity> MusicEntities { get; set; }
+        public DbSet<BookEntity> BookEntities { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);              
