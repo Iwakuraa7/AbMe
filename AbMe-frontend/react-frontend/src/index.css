@@ -140,6 +140,11 @@ input {
   height: 140px;
 }
 
+.bookImagesRes img {
+  width: 100px;
+  height: 140px;
+}
+
 .userHobbyBox:hover > .userHobbyBoxTitle {
   background-color: seashell;
 }
