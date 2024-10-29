@@ -21,7 +21,32 @@ export default function SearchBookPage() {
     }
 
     async function addBookData(book) {
-        console.log("adding book to ur profile...");
+        try
+        {
+            var response = await fetch("http://localhost:5078/api/book/create", {
+                method: "POST",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem('token'),
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    Title: book.volumeInfo.title,
+                    Author: book.volumeInfo.authors[0],
+                    ImageUrl: book.volumeInfo.imageLinks.thumbnail
+                })
+            })
+        
+            var data = await response.json();
+        
+            if(data.succeeded)
+                console.log(data.message);
+            else
+                console.error(data.message);
+        }
+        catch(err)
+        {
+            console.error(err);
+        }
     }
 
     return (
@@ -41,7 +66,7 @@ export default function SearchBookPage() {
                         <img src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : null}></img><br/>
                         <h3>{book.volumeInfo.title}</h3>
                         {currentBookData === book && (
-                            <button onClick={() => addBookData(book)}>Add</button>
+                            <button onClick={() => addBookData(currentBookData)}>Add</button>
                         )}
                     </div>
                 )
