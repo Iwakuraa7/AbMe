@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AbMe_backend.Dtos;
+using AbMe_backend.Data;
+using System.Security.Claims;
+using AbMe_backend.Mappers;
 
 namespace AbMe_backend.Controllers
 {
@@ -20,12 +23,17 @@ namespace AbMe_backend.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly IMusicEntityRepository _musicEntityRepo;
+        private readonly IBookEntityRepository _bookEntityRepo;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService,
+        IMusicEntityRepository musicEntityRepo, IBookEntityRepository bookEntityRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _musicEntityRepo = musicEntityRepo;
+            _bookEntityRepo = bookEntityRepo;
         }
 
         [HttpPost("register")]
@@ -140,6 +148,25 @@ namespace AbMe_backend.Controllers
             {
                 return StatusCode(500, e);
             }
+        }
+
+        [HttpGet("user-hobby-data/{username}")]
+        public async Task<IActionResult> GetUserHobbyData([FromRoute] string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if(user == null)
+                return NotFound(new {succeeded = false, message = "User not found"});
+
+            var userMusicData = await _musicEntityRepo.GetUserMusicEntitiesAsync(user.Id);
+            var userBooksData = await _bookEntityRepo.GetUserBooksAsync(user.Id);
+
+            return Ok(new
+            {
+                succeeded = true,
+                musicData = userMusicData.Select(m => m.fromModelToDto()).OrderByDescending(m => m.Id),
+                booksData = userBooksData.Select(b => b.fromModelToDto()).OrderByDescending(m => m.Id)
+            });
         }
     }
 }
