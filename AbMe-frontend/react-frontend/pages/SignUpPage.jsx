@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react"
+import styles from "../styles/SignUpPage.module.css"
 
 export default function SignUpPage() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    async function registerNewUser(e) {
-        e.preventDefault();
-
+    async function registerNewUser() {
         try
         {
             const response = await fetch("http://localhost:5078/api/account/register", {
@@ -47,30 +46,26 @@ export default function SignUpPage() {
 
     return(
         <>
-        <form onSubmit={registerNewUser}>
-        <div className='authCard'>
-            <div className='authMessageBox'>
-                <h2>Welcome to Abme</h2>
+        <div className={styles["column-three"]}>
+            <div className={styles["up-component"]}>
+                <label htmlFor='usernameField'>Username</label><br/>
+                <input onChange={(e) => {setUsername(e.target.value)}} id='usernameField' type='text'/>
             </div>
-            <div className='inputFieldsBox'>
-                <div>
-                    <label htmlFor='usernameField'>Username</label><br/>
-                    <input onChange={(e) => {setUsername(e.target.value)}} id='usernameField' type='text'/>
-                </div>
 
-                <div>
-                    <label htmlFor='emailField'>Email</label><br/>
-                    <input onChange={(e) => {setEmail(e.target.value)}} id='emailField' type='email'/>
-                </div>
-
-                <div>
-                    <label htmlFor='passwordField'>Password</label><br/>
-                    <input onChange={(e) => {setPassword(e.target.value)}} id='passwordField' type='password'/>
-                </div>
+            <div className={styles["middle-component"]}>
+                <label htmlFor='emailField'>Email</label><br/>
+                <input onChange={(e) => {setEmail(e.target.value)}} id='emailField' type='email'/>
             </div>
-            <button type='submit'>Create new account</button>
+
+            <div className={styles["down-component"]}>
+                <label htmlFor='passwordField'>Password</label><br/>
+                <input onChange={(e) => {setPassword(e.target.value)}} id='passwordField' type='password'/>
+            </div>
+
+            <div className={styles["last-component"]} onClick={() => registerNewUser()}>
+                Let's go!
+            </div>
         </div>
-        </form>
         </>
     )
 }
