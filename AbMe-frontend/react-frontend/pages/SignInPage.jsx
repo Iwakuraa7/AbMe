@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "../styles/SignInPage.module.css"
 
 export default function SingInPage() {
     const [username, setUsername] = useState('');
@@ -7,8 +8,8 @@ export default function SingInPage() {
     const [apiResponse, setApiResponse] = useState({});
     const navigate = useNavigate();
 
-    async function signInUser(e) {
-        e.preventDefault();
+    async function signInUser() {
+        // e.preventDefault();
         
         try
         {
@@ -57,25 +58,21 @@ export default function SingInPage() {
 
     return(
         <>
-        <form onSubmit={signInUser}>
-        <div className='authCard'>
-            <div className='authMessageBox'>
-                <h2>Welcome back</h2>
+        <div className={styles["column-fifty-fifty"]}>
+            <div className={styles["up-component"]}>
+                <label htmlFor='usernameField'>Username</label><br/>
+                <input onChange={(e) => {setUsername(e.target.value)}} id='usernameField' type='text'/>
             </div>
-            <div className='inputFieldsBox'>
-                <div>
-                    <label htmlFor='usernameField'>Username</label><br/>
-                    <input onChange={(e) => {setUsername(e.target.value)}} id='usernameField' type='text'/>
-                </div>
 
-                <div>
-                    <label htmlFor='passwordField'>Password</label><br/>
-                    <input onChange={(e) => {setPassword(e.target.value)}} id='passwordField' type='password'/>
-                </div>
+            <div className={styles["middle-component"]}>
+                <label htmlFor='passwordField'>Password</label><br/>
+                <input onChange={(e) => {setPassword(e.target.value)}} id='passwordField' type='password'/>
             </div>
-            <button type='submit'>Sign in</button>
+
+            <div className={styles["down-component"]} onClick={() => signInUser()}>
+                Let's go!
+            </div>
         </div>
-        </form>
         </>
     )
 }
