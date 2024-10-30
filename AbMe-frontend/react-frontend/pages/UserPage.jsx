@@ -7,7 +7,7 @@ export default function UserPage() {
     const [musicData, setMusicData] = useState(null);
     const [booksData, setBooksData] = useState(null);
     const [expandedHobby, setExpandedHobby] = useState(null);
-    const [musicToDelete, setMusicToDelete] = useState(null);
+    const [dataToDelete, setDataToDelete] = useState(null);
     const params = useParams();
     const hobbyRollBoxRef = useRef(null);
 
@@ -95,7 +95,34 @@ export default function UserPage() {
                 console.log(data.message);
             }
             else
-                console.errorr("sth went wrong during deletion....");
+                console.error("sth went wrong during deletion....");
+        }
+        catch(err)
+        {
+            console.error(err);
+        }
+    }
+
+    async function deleteBookData(bookId) {
+        try
+        {
+            var response = await fetch(`http://localhost:5078/api/book/delete/${bookId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem('token'),
+                    "Content-Type": "application/json"
+                }
+            })
+
+            var data = await response.json();
+
+            if(data.succeeded)
+            {
+                setBooksData((prevData) => prevData.filter(m => m.id !== bookId));
+                console.log(data.message);
+            }
+            else
+                console.error("sth went wrong during deletion....");
         }
         catch(err)
         {
@@ -113,13 +140,13 @@ export default function UserPage() {
                 <div
                 key={music.id}
                 className="searchResultEntity"
-                onMouseEnter={() => setMusicToDelete(music.id)}
-                onMouseLeave={() => setMusicToDelete(null)}>
+                onMouseEnter={() => setDataToDelete(music.id)}
+                onMouseLeave={() => setDataToDelete(null)}>
 
                 <img key={music.id} src={music.imageUrl} alt={`Music photo ${music.id + 1}`}/>
                 <h2>{music.title}</h2>
-                {isOwner && musicToDelete === music.id && (
-                    <button onClick={() => deleteMusicData(musicToDelete)}>Delete</button>
+                {isOwner && dataToDelete === music.id && (
+                    <button onClick={() => deleteMusicData(dataToDelete)}>Delete</button>
                 )}
                 </div>
             ))}
@@ -137,31 +164,42 @@ export default function UserPage() {
                 <div
                 key={book.id}
                 className="searchResultEntity"
-                // onMouseEnter={() => setMusicToDelete(book.id)}
-                // onMouseLeave={() => setMusicToDelete(null)}
+                onMouseEnter={() => setDataToDelete(book.id)}
+                onMouseLeave={() => setDataToDelete(null)}
                 >
 
                 <img key={book.id} src={book.imageUrl} alt={`Music photo ${book.id + 1}`}/>
                 <h2>{book.title}</h2>
-                {/* {isOwner && musicToDelete === book.id && (
-                    <button onClick={() => deleteMusicData(musicToDelete)}>Delete</button>
-                )} */}
+                {isOwner && dataToDelete === book.id && (
+                    <button onClick={() => deleteBookData(dataToDelete)}>Delete</button>
+                )}
                 </div>
             ))}
             </div>
         </div>)
     }
 
+    const renderContent = () => {
+        switch(expandedHobby) {
+            case 'music':
+                return renderMusicContent();
+            case 'books':
+                return renderBooksContent();
+            default:
+                return null;
+        }
+    }
+
     return (
         <>
         {expandedHobby !== null
         ?
-        (expandedHobby)
+        renderContent()
         :
         (
         <div>
             <h2>{params.username}</h2>
-            <div onClick={() => setExpandedHobby(renderMusicContent())} className="userHobbyBox">
+            <div onClick={() => setExpandedHobby('music')} className="userHobbyBox">
                 <div className="userHobbyBoxImages">
                     {musicData && (
                         musicData.slice(0, 4).map(music => (
@@ -174,7 +212,7 @@ export default function UserPage() {
                 </div>
             </div>
 
-            <div onClick={() => setExpandedHobby(renderBooksContent())} className="userHobbyBox bookImagesRes">
+            <div onClick={() => setExpandedHobby('books')} className="userHobbyBox bookImagesRes">
                 <div className="userHobbyBoxImages">
                     {booksData && (
                         booksData.slice(0, 8).map(book => (
