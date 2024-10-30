@@ -2,7 +2,23 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
+body {
+  margin: 0;
+}
+
 :root {
+  --tomato: #ff6347;
+  --yellow: #ffd700;
+  --green: #67de28;
+  --plum: #8776de;
+  --lightPink: #eeaeca;
+  --lightBlue: #94bbe9;
+  --gloomYellow: #e9ce94;
+  --sageGreen: #91f1b9;
+  --red: #e65f5e;
+}
+
+/* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -70,7 +86,7 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+} */
 
 .authCard {
   /* border: 1px hotpink dotted; */
