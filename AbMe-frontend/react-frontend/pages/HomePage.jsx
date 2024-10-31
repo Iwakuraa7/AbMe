@@ -23,18 +23,27 @@ export default function HomePage() {
         <div className={styles["main-grid"]}>
             <div className={styles["left-grid-component"]}/>
 
-            {!isSignIn && !isSignUp && (<div className={styles["middle-grid-component"]}>
+            {!isSignIn && !isSignUp && !isAbout && (<div className={styles["middle-grid-component"]}>
                 <div className={styles["up-middle-grid-component"]}/>
 
                 <div className={styles["down-middle-grid-component"]}/>
             </div>)}
 
             <div className={styles["right-grid-component"]}>
-                <div className={styles["up-right-grid-component"]} onClick={() => {setIsAbout(!isAbout)}}/>
+                <div
+                className={styles["up-right-grid-component"]}
+                onClick={() => {setIsAbout(!isAbout); setIsSignIn(false); setIsSignUp(false)}}
+                />
 
-                <div className={styles["middle-right-grid-component"]} onClick={() => {setIsSignIn(!isSignIn); setIsSignUp(false)} }/>
+                <div
+                className={styles["middle-right-grid-component"]}
+                onClick={() => {setIsSignIn(!isSignIn); setIsSignUp(false); setIsAbout(false)}}
+                />
 
-                <div className={styles["down-right-grid-component"]} onClick={() => {setIsSignUp(!isSignUp); setIsSignIn(false)}}/>
+                <div
+                className={styles["down-right-grid-component"]}
+                onClick={() => {setIsSignUp(!isSignUp); setIsSignIn(false); setIsAbout(false)}}
+                />
             </div>
             
             {isSignIn && (<SingInPage/>)}
