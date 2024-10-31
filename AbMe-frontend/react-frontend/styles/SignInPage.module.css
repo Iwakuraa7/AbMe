@@ -32,6 +32,7 @@
 }
 
 .column-fifty-fifty {
+    border-left: 1px solid snow;
     height: 100vh;
     width: 33.333%;
     display: flex;
@@ -43,7 +44,7 @@
     outline: none;
     border-radius: 5px;
     width: 15vw;
-    height: 5vh;
+    height: 3.5vh;
     font-size: 0.4em;
     font-weight: bold;
     padding-left: 10px;
@@ -55,7 +56,7 @@
 }
 
 .middle-component {
-    background-image: radial-gradient(circle at 95% 85%, var(--green), var(--grey));
+    background-image: radial-gradient(circle at 55% 85%, var(--green), var(--lightPink));
     animation: gradient-animation 7s ease-in-out infinite;
 }
 
@@ -66,7 +67,6 @@
     height: 10%;
     font-size: 3em;
     font-weight: bold;
-    color: snow;
     text-align: center;
 }
 
@@ -84,6 +84,5 @@
     align-items: center;
     font-size: 3em;
     font-weight: bold;
-    color: snow;
     background-size: 400% 400%; /* Creates a smoother transition */
 }
