@@ -120,28 +120,8 @@ button:focus-visible {
 input {
   border: none;
   outline: none;
-  border-radius: 5px;
   width: 20vw;
   height: 3vh;
-}
-
-.searchBox {
-  /* border: 1px hotpink dotted; */
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.searchResultEntity {
-  /* border: 1px blue dotted; */
-  width: 270px;
-  height: 370px;
-  padding: 3%;
-  text-align: center;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center; */
 }
 
 .userHobbyBox {
