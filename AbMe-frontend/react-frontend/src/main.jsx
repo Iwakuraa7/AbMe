@@ -12,6 +12,7 @@ import LogoutPage from '../pages/LogoutPage.jsx';
 import SearchMusicPage from '../pages/SearchMusicPage.jsx';
 import UserPage from '../pages/UserPage.jsx';
 import SearchBookPage from '../pages/SearchBookPage.jsx';
+import SearchAnimePage from '../pages/SearchAnimePage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: 'search/book',
     element: <SearchBookPage/>
+  },
+  {
+    path: 'search/anime',
+    element: <SearchAnimePage/>
   }
 ])
 
