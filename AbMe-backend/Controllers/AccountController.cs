@@ -168,5 +168,14 @@ namespace AbMe_backend.Controllers
                 booksData = userBooksData.Select(b => b.fromModelToDto()).OrderByDescending(m => m.Id)
             });
         }
+
+        [HttpGet("user-search/{username}")]
+        public async Task<IActionResult> SearchUserByUsername([FromRoute] string username)
+        {
+            var users = await _userManager.Users.Where(u => u.UserName.Contains(username)).ToListAsync();
+            var resultUsernames = users.Select(u => u.UserName);
+
+            return Ok(new {succeeded = true, usernames = resultUsernames});
+        }
     }
 }
