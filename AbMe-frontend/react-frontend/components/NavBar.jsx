@@ -1,12 +1,20 @@
 import { useNavigate } from "react-router-dom"
 import styles from "../styles/NavBar.module.css"
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../src/contexts/UserContext";
+import { jwtDecode } from "jwt-decode";
 
 export default function NavBar() {
     const navigate = useNavigate();
     const { userInfo, setUserInfo } = useContext(UserContext);
     const [isAdd, setIsAdd] = useState(false);
+
+    useEffect(() => {
+        var token = localStorage.getItem('token');
+
+        var decodedToken = jwtDecode(token);
+        setUserInfo(decodedToken);
+    }, [localStorage.getItem('token')])
 
     return (
         <div className={styles["nav-bar-box"]}>
@@ -40,7 +48,7 @@ export default function NavBar() {
             className={`${styles["nav-bar-element"]} ${styles["back-gradient-lightBlue-plum"]}`}
             onClick={() => {
                 navigate('/');
-                localStorage.removeItem('token')
+                localStorage.removeItem('token');
             }}
             >
                 Logout
