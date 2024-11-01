@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import NavBar from "../components/NavBar"
+import styles from "../styles/SearchPage.module.css"
 
 const CLIENT_ID = '779748b371464a0b85a3ea0bdcf47f39';
 const CLIENT_SECRET = '0233d3de035f42be8d891773b009a1b5';
@@ -97,45 +99,59 @@ export default function SearchMusic() {
 
     return (
         <>
-        <input type='text' onChange={(e) => {setSearchInput(e.target.value)}}></input>
-        <button onClick={searchMusic}>Search</button><br/>
-        {albums && <h2>Albums</h2>}
-        <div className='searchBox'>
-            {albums && albums.map((album, index) => {
-                return(
-                    <div
-                    key={index}
-                    className="searchResultEntity"
-                    onMouseEnter={() => {setMusicData(album)}}
-                    onMouseLeave={() => {setMusicData(null)}}
-                    >
-                        <img src={album.images[1].url}></img><br/>
-                        <h3>{album.name}</h3>
-                        {musicData === album && (
-                            <button onClick={() => addAlbumData(album)}>Add</button>
-                        )}
-                    </div>
-                )
-            })}
-        </div>
-        {tracks && <h2>Tracks</h2>}
-        <div className='searchBox'>
-            {tracks && tracks.map((track, index) => {
-                return(
-                    <div
-                    key={index}
-                    className="searchResultEntity"
-                    onMouseEnter={() => {setMusicData(track); console.log(track)}}
-                    onMouseLeave={() => {setMusicData(null)}}
-                    >
-                        <img src={track.album.images[1].url}></img><br/>
-                        <h3>{track.name}</h3>
-                        {musicData === track && (
-                            <button onClick={() => {addTrackData(track)}}>Add</button>
-                        )}
-                    </div>
-                )
-            })}
+        <NavBar/>
+        <div className={styles["search-main-box"]}>
+            <div className={styles["search-input-box"]}>
+                <h1>Add music to profile</h1>
+                <div className={styles["search-and-button-rel"]}>
+                    <input type='text' onChange={(e) => {setSearchInput(e.target.value)}}></input>
+                    <button onClick={searchMusic}>Search</button>
+                </div>
+            </div>
+
+            <div className={styles["center-text-box"]}>
+                {albums && <h2>Albums</h2>}
+            </div>
+            <div className={styles["searchBox"]}>
+                {albums && albums.map((album, index) => {
+                    return(
+                        <div
+                        key={index}
+                        className={styles["searchResultEntity"]}
+                        onMouseEnter={() => {setMusicData(album)}}
+                        onMouseLeave={() => {setMusicData(null)}}
+                        >
+                            <img src={album.images[1].url}></img><br/>
+                            <h3>{album.name}</h3>
+                            {musicData === album && (
+                                <button onClick={() => addAlbumData(album)}>Add</button>
+                            )}
+                        </div>
+                    )
+                })}
+            </div>
+            
+            <div className={styles["center-text-box"]}>
+                {tracks && <h2>Tracks</h2>}
+            </div>
+            <div className={styles["searchBox"]}>
+                {tracks && tracks.map((track, index) => {
+                    return(
+                        <div
+                        key={index}
+                        className={styles["searchResultEntity"]}
+                        onMouseEnter={() => {setMusicData(track); console.log(track)}}
+                        onMouseLeave={() => {setMusicData(null)}}
+                        >
+                            <img src={track.album.images[1].url}></img><br/>
+                            <h3>{track.name}</h3>
+                            {musicData === track && (
+                                <button onClick={() => {addTrackData(track)}}>Add</button>
+                            )}
+                        </div>
+                    )
+                })}
+            </div>
         </div>
         </>
     )

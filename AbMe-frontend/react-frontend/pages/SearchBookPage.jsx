@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react"
+import styles from "../styles/SearchPage.module.css"
+import NavBar from "../components/NavBar";
 
 const API_KEY = 'AIzaSyCBgSTwhLqLHJjXx9dHtT4Qk5PnYOVCBos';
 
 export default function SearchBookPage() {
+    const notFoundImage = 'https://i.imgur.com/soXyjFr.jpeg';
     const [searchInput, setSearchInput] = useState('');
-    const [booksData, setBooksData] = useState([]);
+    const [booksData, setBooksData] = useState(null);
     const [currentBookData, setCurrentBookData] = useState([]);
 
     async function handleSearch() {
@@ -51,26 +54,38 @@ export default function SearchBookPage() {
 
     return (
         <>
-        <input type='text' onChange={(e) => {setSearchInput(e.target.value)}}></input>
-        <button onClick={handleSearch}>Search</button><br/>
-        {booksData && <h2>Books</h2>}
-        <div className='searchBox'>
-            {booksData && booksData.map((book, index) => {
-                return(
-                    <div
-                    key={index}
-                    className="searchResultEntity"
-                    onMouseEnter={() => {setCurrentBookData(book)}}
-                    onMouseLeave={() => {setCurrentBookData(null)}}
-                    >
-                        <img src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : null}></img><br/>
-                        <h3>{book.volumeInfo.title}</h3>
-                        {currentBookData === book && (
-                            <button onClick={() => addBookData(currentBookData)}>Add</button>
-                        )}
-                    </div>
-                )
-            })}
+        <NavBar/>
+        <div className={styles["search-main-box"]}>
+            <div className={styles["search-input-box"]}>
+                <h1>Add book to profile</h1>
+                <div className={styles["search-and-button-rel"]}>
+                    <input type='text' onChange={(e) => {setSearchInput(e.target.value)}}></input>
+                    <button onClick={handleSearch}>Search</button><br/>
+                </div>
+            </div>
+
+            <div className={styles["center-text-box"]}>
+                {booksData && <h2>Books</h2>}
+            </div>
+
+            <div className={styles["searchBox"]}>
+                {booksData && booksData.map((book, index) => {
+                    return(
+                        <div
+                        key={index}
+                        className={styles["searchResultEntity"]}
+                        onMouseEnter={() => {setCurrentBookData(book)}}
+                        onMouseLeave={() => {setCurrentBookData(null)}}
+                        >
+                            <img src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : notFoundImage}></img><br/>
+                            <h3>{book.volumeInfo.title}</h3>
+                            {currentBookData === book && (
+                                <button onClick={() => addBookData(currentBookData)}>Add</button>
+                            )}
+                        </div>
+                    )
+                })}
+            </div>
         </div>
         </>
     )
