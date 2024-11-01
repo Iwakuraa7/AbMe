@@ -1,3 +1,7 @@
+body {
+    color: snow;
+}
+
 @keyframes morph {
     0%, 100% {
         border-radius: 50% 50% 45% 55% / 55% 45% 50% 50%;
@@ -28,12 +32,13 @@
 
 .mainPage-back {
     background-color: var(--black);
-    height: 92vh;
+    min-height: 92vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    row-gap: 10%;
+    row-gap: 5vh;
 }
 
 .search-user-input-box {
@@ -52,4 +57,39 @@
     font-size: 0.8em;
     font-weight: 500;
     text-align: center;
+}
+
+.button-style {
+    color: snow;
+    outline: 1px solid snow;
+    border: none;
+    background-color: black;
+    font-weight: 500;
+}
+
+.button-style:hover {
+    outline: 1px solid snow;
+}
+
+.usernames-box {
+    /* outline: 1px hotpink solid; */
+    max-width: 40vw;
+    min-height: 7vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-self: center;
+    justify-content: center;
+}
+
+.usernameEntity-box {
+    display: block;
+    min-width: 10vw;
+    text-align: center;
+}
+
+.usernameEntity-box:hover {
+    outline: 1px solid snow;
+    cursor: pointer;
 }
