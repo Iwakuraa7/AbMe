@@ -18,6 +18,8 @@ namespace AbMe_backend.Data
         
         public DbSet<MusicEntity> MusicEntities { get; set; }
         public DbSet<BookEntity> BookEntities { get; set; }
+        public DbSet<AnimeEntity> AnimeEntities { get; set; }
+        public DbSet<MangaEntity> MangaEntities { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);              
