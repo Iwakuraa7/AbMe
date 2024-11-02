@@ -10,5 +10,7 @@ namespace AbMe_backend.Models
     {
         public List<MusicEntity> MusicEntities { get; set; }
         public List<BookEntity> BookEntities { get; set; }
+        public List<AnimeEntity> AnimeEntities { get; set; }
+        public List<MangaEntity> MangaEntities { get; set; }
     }
 }
