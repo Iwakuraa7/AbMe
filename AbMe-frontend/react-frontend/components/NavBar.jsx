@@ -34,6 +34,8 @@ export default function NavBar() {
                 <div className={styles["dropdown-container"]} style={{ display: isAdd ? 'block' : 'none' }}>
                     <div onClick={() => navigate('/search/music')}>Music</div>
                     <div onClick={() => navigate('/search/book')}>Books</div>
+                    <div onClick={() => navigate('/search/anime')}>Anime</div>
+                    <div onClick={() => navigate('/search/manga')}>Manga</div>
                 </div>
             </div> 
 
