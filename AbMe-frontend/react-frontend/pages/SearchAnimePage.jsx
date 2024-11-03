@@ -25,7 +25,24 @@ export default function SearchAnimePage() {
     }
 
     async function addAnimeData () {
-        
+        var response = await fetch("http://localhost:5078/api/anime/create", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem('token'),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                Title: currentAnimeData.title[0],
+                ImageUrl: currentAnimeData.imageUrl.image_url
+            })
+        });
+
+        var data = await response.json();
+
+        if(data.succeeded)
+            console.log("Successfully created anime entity");
+        else
+            console.log(data.message);
     }
 
     return (
@@ -38,10 +55,6 @@ export default function SearchAnimePage() {
                     <input type='text' onChange={(e) => {setSearchInput(e.target.value)}}></input>
                     <button onClick={handleSearch}>Search</button><br/>
                 </div>
-            </div>
-
-            <div className={styles["center-text-box"]}>
-                {animeData && <h2>Anime</h2>}
             </div>
 
             <div className={styles["searchBox"]}>
