@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom";
 import {jwtDecode } from "jwt-decode";
+import styles from "../styles/UserPage.module.css"
+import NavBar from "../components/NavBar";
 
 export default function UserPage() {
     const [isOwner, setIsOwner] = useState(null);
@@ -12,7 +14,7 @@ export default function UserPage() {
     const hobbyRollBoxRef = useRef(null);
 
     useEffect(() => {
-        async function fetchMusicData() {
+        async function fetchHobbyData() {
             try
             {
                 var response = await fetch(`http://localhost:5078/api/account/user-hobby-data/${params.username}`, {
@@ -51,7 +53,7 @@ export default function UserPage() {
                 setIsOwner(false);
         }
 
-        fetchMusicData();
+        fetchHobbyData();
         checkOwnership();
     }, [params.username])
 
@@ -194,9 +196,14 @@ export default function UserPage() {
         <>
         {expandedHobby !== null
         ?
-        renderContent()
+        <>
+        <NavBar/>
+        {renderContent()}
+        </>
         :
         (
+        <>
+        <NavBar/>
         <div>
             <h2>{params.username}</h2>
             <div onClick={() => setExpandedHobby('music')} className="userHobbyBox">
@@ -225,6 +232,7 @@ export default function UserPage() {
                 </div>
             </div>
         </div>
+        </>
         )}
         </>
     )
