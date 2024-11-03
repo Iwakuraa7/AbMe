@@ -6,7 +6,9 @@ body button:hover {
 
 .search-main-box {
     background-color: black;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5vh;
     min-height: 100vh;
     height: 100%;
     color: snow;
