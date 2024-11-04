@@ -25,15 +25,20 @@ namespace AbMe_backend.Controllers
         private readonly ITokenService _tokenService;
         private readonly IMusicEntityRepository _musicEntityRepo;
         private readonly IBookEntityRepository _bookEntityRepo;
+        private readonly IAnimeEntityRepository _animeEntityRepo;
+        private readonly IMangaEntityRepository _mangaEntityRepo;
 
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService,
-        IMusicEntityRepository musicEntityRepo, IBookEntityRepository bookEntityRepo)
+        IMusicEntityRepository musicEntityRepo, IBookEntityRepository bookEntityRepo, IAnimeEntityRepository animeEntityRepo,
+        IMangaEntityRepository mangaEntityRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
             _musicEntityRepo = musicEntityRepo;
             _bookEntityRepo = bookEntityRepo;
+            _animeEntityRepo = animeEntityRepo;
+            _mangaEntityRepo = mangaEntityRepo;
         }
 
         [HttpPost("register")]
@@ -160,12 +165,16 @@ namespace AbMe_backend.Controllers
 
             var userMusicData = await _musicEntityRepo.GetUserMusicEntitiesAsync(user.Id);
             var userBooksData = await _bookEntityRepo.GetUserBooksAsync(user.Id);
+            var userAnimeData = await _animeEntityRepo.GetUserAnimeListAsync(user.Id);
+            var userMangaData = await _mangaEntityRepo.GetUserMangaListAsync(user.Id);
 
             return Ok(new
             {
                 succeeded = true,
                 musicData = userMusicData.Select(m => m.fromModelToDto()).OrderByDescending(m => m.Id),
-                booksData = userBooksData.Select(b => b.fromModelToDto()).OrderByDescending(m => m.Id)
+                booksData = userBooksData.Select(b => b.fromModelToDto()).OrderByDescending(m => m.Id),
+                animeData = userAnimeData.Select(a => a.fromModelToDto()).OrderByDescending(a => a.Id),
+                mangaData = userMangaData.Select(m => m.fromModelToDto()).OrderByDescending(m => m.Id),
             });
         }
 
