@@ -7,6 +7,9 @@ import NavBar from "../components/NavBar";
 
 export default function UserPage() {
     const [isOwner, setIsOwner] = useState(null);
+    const [isColorSettings, setIsColorSettings] = useState(false);
+    const [userColorOne, setUserColorOne] = useState('#ff6347');
+    const [userColorTwo, setUserColorTwo] = useState('#ffd700');
     const [musicData, setMusicData] = useState(null);
     const [booksData, setBooksData] = useState(null);
     const [animeData, setAnimeData] = useState(null);
@@ -18,8 +21,6 @@ export default function UserPage() {
 
     useEffect(() => {
         async function fetchHobbyData() {
-            try
-            {
                 var response = await fetch(`http://localhost:5078/api/account/user-hobby-data/${params.username}`, {
                     method: "GET",
                     headers: {
@@ -35,16 +36,13 @@ export default function UserPage() {
                     setBooksData(data.booksData);
                     setAnimeData(data.animeData);
                     setMangaData(data.mangaData);
-                    console.log(data);
+                    setUserColorOne(data.userColors.firstColor);
+                    setUserColorTwo(data.userColors.secondColor);
+                    console.log(data.userColors);
                 }
 
                 else
-                    console.error("sth went wrong while gettin userMusicData...");
-            }
-            catch(err)
-            {
-                console.error(err);
-            }
+                    console.error(data.message);
         }
 
         function checkOwnership() {
@@ -101,6 +99,24 @@ export default function UserPage() {
         {
             console.error(err);
         }
+    }
+
+    async function handleUserColorUpdate() {
+        var response = await fetch("http://localhost:5078/api/user-color/update", {
+            method: "PUT",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem('token'),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                FirstColor: userColorOne,
+                SecondColor: userColorTwo
+            })
+        })
+
+        var data = await response.json();
+
+        console.log(data.message);
     }
 
     function findRelevantData() {
@@ -175,8 +191,6 @@ export default function UserPage() {
             </div>
         );
     };
-    
-    
 
     return (
         <>
@@ -190,10 +204,38 @@ export default function UserPage() {
         (
         <>
         <NavBar/>
-        <h2 className={styles["center-text"]}>{params.username}</h2>
+        <div className={styles["user-page-main-box"]}>
+
+        <div className={styles["center-upper-elements"]}>
+            <div
+            className={mainPageStyles["morphing-shape"]}
+            style={{
+                background: `radial-gradient(circle at 50% 50%, ${userColorOne}, ${userColorTwo})`,
+                boxShadow: `0 0 0px ${userColorOne}, 0 0 40px ${userColorTwo}, 0 0 100px ${userColorOne}`
+            }}
+            >
+                {params.username}
+                {isOwner && (
+                    <>
+                    <img
+                    className={styles["settings-image"]}
+                    src="https://i.imgur.com/7zR6056.png"
+                    onClick={() => setIsColorSettings(!isColorSettings)}
+                    />
+                    <div className={styles["color-settings-box"]} style={{display: isColorSettings ? "flex" : "none"}}>
+                        Color settings
+                        <div className={styles["color-input-box"]}>
+                            <input className={styles["color-picker"]} type="color" onChange={(e) => {setUserColorOne(e.target.value)}}/>
+                            <input className={styles["color-picker"]} type="color" onChange={(e) => {setUserColorTwo(e.target.value)}}/>
+                        </div>
+                        <button onClick={() => handleUserColorUpdate()}>Save</button>
+                    </div>
+                    </>
+                )}                
+            </div>
+        </div>
         
         <div className={styles["user-hobby-main-box"]}>
-
             <div onClick={() => setExpandedHobby('music')} className={styles["userHobbyBox"]}>
                 <div className={styles["userHobbyBoxImages"]}>
                     {musicData && (
@@ -245,6 +287,7 @@ export default function UserPage() {
                     <strong>Manga</strong>
                 </div>
             </div>
+        </div>
 
         </div>
         </>
