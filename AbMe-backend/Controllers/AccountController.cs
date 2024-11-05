@@ -27,10 +27,11 @@ namespace AbMe_backend.Controllers
         private readonly IBookEntityRepository _bookEntityRepo;
         private readonly IAnimeEntityRepository _animeEntityRepo;
         private readonly IMangaEntityRepository _mangaEntityRepo;
+        private readonly IUserColorRepository _userColorRepo;
 
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService,
         IMusicEntityRepository musicEntityRepo, IBookEntityRepository bookEntityRepo, IAnimeEntityRepository animeEntityRepo,
-        IMangaEntityRepository mangaEntityRepo)
+        IMangaEntityRepository mangaEntityRepo, IUserColorRepository userColorRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -39,6 +40,7 @@ namespace AbMe_backend.Controllers
             _bookEntityRepo = bookEntityRepo;
             _animeEntityRepo = animeEntityRepo;
             _mangaEntityRepo = mangaEntityRepo;
+            _userColorRepo = userColorRepo;
         }
 
         [HttpPost("register")]
@@ -60,6 +62,15 @@ namespace AbMe_backend.Controllers
                 if(createUserResult.Succeeded)
                 {
                     var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
+
+                    var defaultUserColor = new UserColor
+                    {
+                        FirstColor = "#ff6347",
+                        SecondColor = "#ffd700",
+                        AppUserId = appUser.Id
+                    };
+
+                    await _userColorRepo.CreateAsync(defaultUserColor);                     
 
                     if(roleResult.Succeeded)
                     {
@@ -138,7 +149,21 @@ namespace AbMe_backend.Controllers
                     Name = user.UserName,
                     Email = user.Email,
                     Token = _tokenService.CreateToken(user)
-                };                
+                };
+                
+                var userColor = await _userColorRepo.ExistsAsync(user.Id);
+
+                if(userColor == null)
+                {
+                    var defaultUserColor = new UserColor
+                    {
+                        FirstColor = "#ff6347",
+                        SecondColor = "#ffd700",
+                        AppUserId = user.Id
+                    };
+
+                    await _userColorRepo.CreateAsync(defaultUserColor);                
+                }
 
                 var response = new 
                 {
@@ -167,6 +192,7 @@ namespace AbMe_backend.Controllers
             var userBooksData = await _bookEntityRepo.GetUserBooksAsync(user.Id);
             var userAnimeData = await _animeEntityRepo.GetUserAnimeListAsync(user.Id);
             var userMangaData = await _mangaEntityRepo.GetUserMangaListAsync(user.Id);
+            var userColorsData = await _userColorRepo.GetUserColorsAsync(user.Id);
 
             return Ok(new
             {
@@ -175,6 +201,7 @@ namespace AbMe_backend.Controllers
                 booksData = userBooksData.Select(b => b.fromModelToDto()).OrderByDescending(m => m.Id),
                 animeData = userAnimeData.Select(a => a.fromModelToDto()).OrderByDescending(a => a.Id),
                 mangaData = userMangaData.Select(m => m.fromModelToDto()).OrderByDescending(m => m.Id),
+                userColors = userColorsData.fromModelToDto()
             });
         }
 
