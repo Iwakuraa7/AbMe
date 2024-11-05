@@ -20,6 +20,7 @@ namespace AbMe_backend.Data
         public DbSet<BookEntity> BookEntities { get; set; }
         public DbSet<AnimeEntity> AnimeEntities { get; set; }
         public DbSet<MangaEntity> MangaEntities { get; set; }
+        public DbSet<UserColor> UserColors { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);              
