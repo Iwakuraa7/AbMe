@@ -4,6 +4,7 @@ using AbMe_backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbMe_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241105065613_Create UserColor model")]
+    partial class CreateUserColormodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -211,8 +214,10 @@ namespace AbMe_backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AppUserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstColor")
@@ -225,7 +230,7 @@ namespace AbMe_backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("AppUserId1");
 
                     b.ToTable("UserColors");
                 });
@@ -259,13 +264,13 @@ namespace AbMe_backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7b1159e8-7927-45eb-b76a-8bd0549f8336",
+                            Id = "56b35078-403d-4962-8ea5-87b07838074c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "f6fdfe6f-99c0-4fd3-9e1a-f0356ddc5ed0",
+                            Id = "abc4a65a-d6b1-4707-b78a-d609556e9ca0",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -425,9 +430,7 @@ namespace AbMe_backend.Migrations
                 {
                     b.HasOne("AbMe_backend.Models.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserId1");
 
                     b.Navigation("AppUser");
                 });
