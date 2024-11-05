@@ -20,15 +20,19 @@ body {
 .morphing-shape {
     width: 400px;
     height: 400px;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     background: radial-gradient(circle at 50% 50%, var(--tomato), var(--yellow));
+    box-shadow: 0 0 0px var(--yellow), 0 0 40px var(--tomato), 0 0 100px var(--yellow);
     font-size: 3em;
     color: white;
     font-weight: bold;
     animation: morph 10s infinite alternate;
+    transition: box-shadow 1s ease-in-out;
 }
+
 
 .mainPage-back {
     background-color: var(--black);
