@@ -123,3 +123,68 @@ body {
     background-color: black;
     font-weight: 500;
 }
+
+.user-page-main-box {
+    display: flex;
+    flex-direction: column;
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    row-gap: 6vh;
+}
+
+.settings-image {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 10px;
+    bottom: 10px;
+}
+
+.settings-image:hover {
+    cursor: pointer;
+}
+
+.color-settings-box {
+    outline: 1px solid snow;
+    font-size: 0.4em;
+    width: 8vw;
+    height: 15vh;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    bottom: 10px;
+    right: -9vw;
+}
+
+.color-settings-box button {
+    color: snow;
+    outline: 1px solid snow;
+    border: none;
+    background-color: black;
+    font-weight: 500;
+}
+
+.color-picker {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.color-picker::-webkit-color-swatch {
+    outline: 1px solid snow;
+    border: none;
+}
+
+.color-input-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    column-gap: 1vw;
+}
