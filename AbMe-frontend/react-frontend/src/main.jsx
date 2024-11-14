@@ -14,6 +14,7 @@ import UserPage from '../pages/UserPage.jsx';
 import SearchBookPage from '../pages/SearchBookPage.jsx';
 import SearchAnimePage from '../pages/SearchAnimePage.jsx';
 import SearchMangaPage from '../pages/SearchMangaPage.jsx';
+import SearchMoviePage from '../pages/SearchMoviePage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: 'search/manga',
     element: <SearchMangaPage/>
+  },
+  {
+    path: 'search/movie',
+    element: <SearchMoviePage/>
   }
 ])
 
