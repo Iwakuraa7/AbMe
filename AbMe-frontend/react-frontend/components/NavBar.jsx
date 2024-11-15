@@ -36,6 +36,7 @@ export default function NavBar() {
                     <div onClick={() => navigate('/search/book')}>Books</div>
                     <div onClick={() => navigate('/search/anime')}>Anime</div>
                     <div onClick={() => navigate('/search/manga')}>Manga</div>
+                    <div onClick={() => navigate('/search/movie')}>Media</div>
                 </div>
             </div> 
 
