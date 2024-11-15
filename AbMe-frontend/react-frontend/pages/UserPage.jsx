@@ -14,6 +14,7 @@ export default function UserPage() {
     const [booksData, setBooksData] = useState(null);
     const [animeData, setAnimeData] = useState(null);
     const [mangaData, setMangaData] = useState(null);
+    const [mediaData, setMediaData] = useState(null);
     const [randomDimensions, setRandomDimensions] = useState({});
     const [expandedHobby, setExpandedHobby] = useState(null);
     const [dataToDelete, setDataToDelete] = useState(null);
@@ -36,6 +37,7 @@ export default function UserPage() {
                     setBooksData(data.booksData);
                     setAnimeData(data.animeData);
                     setMangaData(data.mangaData);
+                    setMediaData(data.mediaData);
                     setUserColorOne(data.userColors.firstColor);
                     setUserColorTwo(data.userColors.secondColor);
                     console.log(data.userColors);
@@ -85,6 +87,8 @@ export default function UserPage() {
                         setAnimeData((prevData) => prevData.filter(a => a.id !== dataId));
                     case 'manga':
                         setMangaData((prevData) => prevData.filter(m => m.id !== dataId));
+                    case 'movie':
+                        setMediaData((prevData) => prevData.filter(m => m.id != dataId));
                     default:
                         return;
                 }
@@ -130,6 +134,8 @@ export default function UserPage() {
                 return animeData;
             case 'manga':
                 return mangaData;
+            case 'movie':
+                return mediaData;
             default:
                 return null;
         }        
@@ -285,6 +291,19 @@ export default function UserPage() {
                 </div>
                 <div className={styles["userHobbyBoxTitle"]}>
                     <strong>Manga</strong>
+                </div>
+            </div>
+
+            <div onClick={() => setExpandedHobby('movie')} className={`${styles["userHobbyBox"]} ${styles["bookImagesRes"]}`}>
+                <div className={styles["userHobbyBoxImages"]}>
+                    {mediaData && (
+                        mediaData.slice(0, 8).map(media => (
+                            <img key={media.id} src={media.imageUrl} alt={`Media photo ${media.id + 1}`}/>
+                        ))
+                    )}
+                </div>
+                <div className={styles["userHobbyBoxTitle"]}>
+                    <strong>Media</strong>
                 </div>
             </div>
         </div>
