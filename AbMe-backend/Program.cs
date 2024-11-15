@@ -16,6 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
+
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
@@ -94,6 +96,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IMusicEntityRepository, MusicEntityRepository>();
 builder.Services.AddScoped<IBookEntityRepository, BookEntityRepository>();
+builder.Services.AddScoped<IAnimeEntityRepository, AnimeEntityRepository>();
+builder.Services.AddScoped<IMangaEntityRepository, MangaEntityRepostitory>();
+builder.Services.AddScoped<IMediaEntityRepository, MediaEntityRepository>();
+builder.Services.AddScoped<IUserColorRepository, UserColorRepository>();
 
 var app = builder.Build();
 
