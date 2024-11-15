@@ -27,11 +27,12 @@ namespace AbMe_backend.Controllers
         private readonly IBookEntityRepository _bookEntityRepo;
         private readonly IAnimeEntityRepository _animeEntityRepo;
         private readonly IMangaEntityRepository _mangaEntityRepo;
+        private readonly IMediaEntityRepository _mediaEntityRepo;
         private readonly IUserColorRepository _userColorRepo;
 
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService,
         IMusicEntityRepository musicEntityRepo, IBookEntityRepository bookEntityRepo, IAnimeEntityRepository animeEntityRepo,
-        IMangaEntityRepository mangaEntityRepo, IUserColorRepository userColorRepo)
+        IMangaEntityRepository mangaEntityRepo, IUserColorRepository userColorRepo, IMediaEntityRepository mediaEntityRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -40,6 +41,7 @@ namespace AbMe_backend.Controllers
             _bookEntityRepo = bookEntityRepo;
             _animeEntityRepo = animeEntityRepo;
             _mangaEntityRepo = mangaEntityRepo;
+            _mediaEntityRepo = mediaEntityRepo;
             _userColorRepo = userColorRepo;
         }
 
@@ -192,6 +194,7 @@ namespace AbMe_backend.Controllers
             var userBooksData = await _bookEntityRepo.GetUserBooksAsync(user.Id);
             var userAnimeData = await _animeEntityRepo.GetUserAnimeListAsync(user.Id);
             var userMangaData = await _mangaEntityRepo.GetUserMangaListAsync(user.Id);
+            var userMediaData = await _mediaEntityRepo.GetUserMediaEntitiesAsync(user.Id);
             var userColorsData = await _userColorRepo.GetUserColorsAsync(user.Id);
 
             return Ok(new
@@ -201,6 +204,7 @@ namespace AbMe_backend.Controllers
                 booksData = userBooksData.Select(b => b.fromModelToDto()).OrderByDescending(m => m.Id),
                 animeData = userAnimeData.Select(a => a.fromModelToDto()).OrderByDescending(a => a.Id),
                 mangaData = userMangaData.Select(m => m.fromModelToDto()).OrderByDescending(m => m.Id),
+                mediaData = userMediaData.Select(m => m.fromModeltoDto()).OrderByDescending(m => m.Id),
                 userColors = userColorsData.fromModelToDto()
             });
         }
