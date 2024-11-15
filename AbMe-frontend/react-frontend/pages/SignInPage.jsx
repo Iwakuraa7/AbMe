@@ -5,12 +5,10 @@ import styles from "../styles/SignInPage.module.css"
 export default function SingInPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [apiResponse, setApiResponse] = useState({});
+    const [apiResponse, setApiResponse] = useState(false);
     const navigate = useNavigate();
 
     async function signInUser() {
-        // e.preventDefault();
-        
         try
         {
             const response = await fetch("http://localhost:5078/api/account/login", {
@@ -30,7 +28,7 @@ export default function SingInPage() {
 
             if(data.succeeded)
             {
-                setApiResponse(data);
+                setApiResponse(data.succeeded);
                 localStorage.setItem('token', data.userInfo.token);
                 console.log(data.message);
                 console.log(data);
@@ -51,7 +49,7 @@ export default function SingInPage() {
     })
 
     useEffect(() => {
-        if(apiResponse.succeeded) {
+        if(apiResponse) {
             navigate('/home');
         }
     }, [apiResponse])

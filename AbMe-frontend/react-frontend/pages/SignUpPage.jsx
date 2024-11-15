@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react"
 import styles from "../styles/SignUpPage.module.css"
+import { useNavigate } from "react-router-dom";
 
 export default function SignUpPage() {
+    const [apiResponse, setApiResponse] = useState(false);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     async function registerNewUser() {
         try
@@ -25,12 +28,13 @@ export default function SignUpPage() {
             const data = await response.json();
             if(data.succeeded)
             {
+                setApiResponse(data.succeeded);
                 localStorage.setItem('token', data.token);
                 console.log(data);
                 console.log(data.message);
             }
             else
-                console.log(data.message)
+                console.error(data.message)
         }
         catch(err)
         {
@@ -43,6 +47,12 @@ export default function SignUpPage() {
             navigate('/logout');
         }
     })
+
+    useEffect(() => {
+        if(apiResponse) {
+            navigate('/home');
+        }
+    }, [apiResponse])
 
     return(
         <>
