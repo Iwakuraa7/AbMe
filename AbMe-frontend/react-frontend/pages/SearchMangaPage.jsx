@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "../styles/SearchPage.module.css";
 import NavBar from "../components/NavBar";
 

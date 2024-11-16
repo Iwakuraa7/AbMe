@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import styles from "../styles/SearchPage.module.css"
 import NavBar from "../components/NavBar";
-
-const API_KEY = 'AIzaSyCBgSTwhLqLHJjXx9dHtT4Qk5PnYOVCBos';
+import { UserContext } from "../src/contexts/UserContext.jsx";
 
 export default function SearchBookPage() {
+    const { API_KEY } = useContext(UserContext);
     const notFoundImage = 'https://i.imgur.com/soXyjFr.jpeg';
     const [searchInput, setSearchInput] = useState('');
     const [booksData, setBooksData] = useState(null);

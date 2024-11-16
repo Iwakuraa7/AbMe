@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from "react"
-import { useSearchParams } from "react-router-dom";
+import { useContext, useState } from "react"
 import NavBar from "../components/NavBar";
 import styles from "../styles/SearchPage.module.css";
 import { UserContext } from "../src/contexts/UserContext.jsx";

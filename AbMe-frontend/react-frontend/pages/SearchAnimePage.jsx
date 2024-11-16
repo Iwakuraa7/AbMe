@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "../styles/SearchPage.module.css";
 import NavBar from "../components/NavBar";
-
-const CLIENT_ID = '5cffb785e93032f680689d03f0f8819d';
 
 export default function SearchAnimePage() {
     const [searchInput, setSearchInput] = useState(null);
