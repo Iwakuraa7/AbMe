@@ -40,7 +40,7 @@
 .add-bar-element {
     position: relative;
 }
-  
+
 
 .dropdown-container {
     position: absolute;
@@ -50,6 +50,7 @@
     background-color: black;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     display: block; /* Initially hidden */
+    z-index: 1;
 }
   
   /* Dropdown items */
