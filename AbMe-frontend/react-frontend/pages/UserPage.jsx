@@ -40,7 +40,7 @@ export default function UserPage() {
                     setMediaData(data.mediaData);
                     setUserColorOne(data.userColors.firstColor);
                     setUserColorTwo(data.userColors.secondColor);
-                    console.log(data.userColors);
+                    console.log(data);
                 }
 
                 else
@@ -200,16 +200,15 @@ export default function UserPage() {
 
     return (
         <>
+        <NavBar/>
         {expandedHobby !== null
         ?
         <>
-        <NavBar/>
         {renderRelevantContent()}
         </>
         :
         (
         <>
-        <NavBar/>
         <div className={styles["user-page-main-box"]}>
 
         <div className={styles["center-upper-elements"]}>
