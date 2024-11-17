@@ -64,7 +64,7 @@ namespace AbMe_backend.Controllers
 
             await _animeEntityRepo.CreateAsync(animeModel);
 
-            return Ok(new {succeeded = true, message = "Successfully created new anime entity!"});
+            return Ok(new {succeeded = true, message = "Added to your profile"});
         }
 
         [HttpDelete("delete/{animeId}")]
@@ -85,7 +85,7 @@ namespace AbMe_backend.Controllers
 
             await _animeEntityRepo.DeleteAsync(animeToDelete);
 
-            return Ok(new {succeeded = true, message = "Successfully deleted anime entity with the given id"});
+            return Ok(new {succeeded = true, message = "Removed from your profile"});
         }
     }
 }

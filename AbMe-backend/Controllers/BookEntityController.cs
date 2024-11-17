@@ -63,7 +63,7 @@ namespace AbMe_backend.Controllers
 
             await _bookEntityRepo.CreateAsync(bookModel);
 
-            return Ok(new {succeeded = true, message = "Successfully created new bookEntity"});
+            return Ok(new {succeeded = true, message = "Added! <3"});
         }
 
         [HttpDelete("delete/{bookId:int}")]
@@ -84,7 +84,7 @@ namespace AbMe_backend.Controllers
 
             await _bookEntityRepo.DeleteAsync(book);
 
-            return Ok(new {succeeded = true, message = "Successfully deleted bookEntity with the given id"});
+            return Ok(new {succeeded = true, message = "Successfully removed from your profile"});
         }
     }
 }

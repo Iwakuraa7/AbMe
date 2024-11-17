@@ -66,7 +66,7 @@ namespace AbMe_backend.Controllers
 
             await _mangaEntityRepo.CreateAsync(mangaModel);
 
-            return Ok(new {succeeded = true, message = "Successfully created new manga entity!"});
+            return Ok(new {succeeded = true, message = "Successfully added the chosen manga to your profile!"});
         }
 
         [HttpDelete("delete/{mangaId}")]
@@ -87,7 +87,7 @@ namespace AbMe_backend.Controllers
 
             await _mangaEntityRepo.DeleteAsync(mangaToDelete);
 
-            return Ok(new {succeeded = true, message = "Successfully deleted manga entity with the given id"});
+            return Ok(new {succeeded = true, message = "The manga is removed from the profile"});
         }        
     }
 }

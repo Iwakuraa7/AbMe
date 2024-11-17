@@ -63,7 +63,7 @@ namespace AbMe_backend.Controllers
 
             await _mediaEntityRepo.CreateAsync(mediaModel);
 
-            return Ok(new {succeeded = true, message = "Successfully created new media entity"});
+            return Ok(new {succeeded = true, message = "Added to your profile :)"});
         }
 
         [HttpDelete("delete/{mediaId:int}")]
@@ -84,7 +84,7 @@ namespace AbMe_backend.Controllers
 
             await _mediaEntityRepo.DeleteAsync(mediaToDelete);
 
-            return Ok(new {succeeded = true, message = "Successfully deleted media data"});
+            return Ok(new {succeeded = true, message = "Removed"});
         }
     }
 }

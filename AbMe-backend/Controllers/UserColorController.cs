@@ -58,7 +58,7 @@ namespace AbMe_backend.Controllers
             if(userColorToUpdate == null)
                 return NotFound(new {succeeded = false, message = "User's colors not found"});
 
-            return Ok(new {succeeded = true, message = "Successfully updated your aura colors"});
+            return Ok(new {succeeded = true, message = "Successfully updated your aura colors <3"});
         }
 
         [HttpGet]

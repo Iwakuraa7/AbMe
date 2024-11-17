@@ -45,7 +45,7 @@ namespace AbMe_backend.Controllers
             musicEntityModel.AppUserId = appUser.Id;
             await _musicEntityRepo.CreateAsync(musicEntityModel);
 
-            return Ok(new {succeeded = true, message = "Successfully created a new musicEntity"});
+            return Ok(new {succeeded = true, message = "Added to your profile"});
         }
 
         // [Authorize]
@@ -67,7 +67,7 @@ namespace AbMe_backend.Controllers
 
             await _musicEntityRepo.DeleteAsync(musicId);
 
-            return Ok(new {succeeded = true, message = "Successfully deleted music entity"});
+            return Ok(new {succeeded = true, message = "Successfully removed from your profile"});
         }
 
         [HttpGet]
