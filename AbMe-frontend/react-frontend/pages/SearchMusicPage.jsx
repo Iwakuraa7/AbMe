@@ -97,7 +97,14 @@ export default function SearchMusic() {
             <div className={styles["search-input-box"]}>
                 <h1>Add music to profile</h1>
                 <div className={styles["search-and-button-rel"]}>
-                    <input type='text' onChange={(e) => {setSearchInput(e.target.value)}}></input>
+                    <input
+                    type='text'
+                    onChange={(e) => {setSearchInput(e.target.value)}}
+                    onKeyDown={(e) => {
+                        if(e.key === 'Enter')
+                            searchMusic();
+                    }}
+                    />  
                     <button onClick={searchMusic}>Search</button>
                 </div>
             </div>

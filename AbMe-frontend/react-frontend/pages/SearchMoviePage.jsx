@@ -53,7 +53,14 @@ export default function SearchMoviePage() {
             <div className={styles["search-input-box"]}>
                 <h1>Add movie or show to profile</h1>
                 <div className={styles["search-and-button-rel"]}>
-                    <input type='text' onChange={(e) => {setSearchInput(e.target.value)}}></input>
+                    <input
+                    type='text'
+                    onChange={(e) => {setSearchInput(e.target.value)}}
+                    onKeyDown={(e) => {
+                        if(e.key === 'Enter')
+                            handleSearch();
+                    }}
+                    />
                     <button onClick={handleSearch}>Search</button><br/>
                 </div>
             </div>
