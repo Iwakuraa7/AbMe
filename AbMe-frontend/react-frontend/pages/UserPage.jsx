@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
 import {jwtDecode } from "jwt-decode";
 import styles from "../styles/UserPage.module.css"
 import mainPageStyles from "../styles/MainPage.module.css"
 import NavBar from "../components/NavBar";
+import { UserContext } from "../src/contexts/UserContext";
+import ContextMessage from "../components/ContextMessage";
 
 export default function UserPage() {
+    const {contextMsg, setContextMsg, fadeOut, setFadeOut, showMessage} = useContext(UserContext);
     const [isOwner, setIsOwner] = useState(null);
     const [isColorSettings, setIsColorSettings] = useState(false);
     const [userColorOne, setUserColorOne] = useState('#ff6347');
@@ -75,6 +78,8 @@ export default function UserPage() {
 
             var data = await response.json();
 
+            showMessage(data.message);
+
             if(data.succeeded)
             {
                 switch(expandedHobby)
@@ -92,11 +97,6 @@ export default function UserPage() {
                     default:
                         return;
                 }
-                console.log(data.message);
-            }
-            else
-            {
-                console.error("sth went wrong during deletion....");
             }
         }
         catch(err)
@@ -120,7 +120,7 @@ export default function UserPage() {
 
         var data = await response.json();
 
-        console.log(data.message);
+        showMessage(data.message);
     }
 
     function findRelevantData() {
@@ -161,6 +161,8 @@ export default function UserPage() {
     
         return (
             <div>
+                {contextMsg && (<ContextMessage message={contextMsg} fadeOut={fadeOut}/>)}
+
                 <div className={styles["center-upper-elements"]}>
                     <h2>{params.username}'s {expandedHobby} taste</h2>
                     <button className={mainPageStyles["button-style"]} onClick={() => setExpandedHobby(null)}>Back</button>
@@ -193,7 +195,6 @@ export default function UserPage() {
                         </div>
                     ))}
                 </div>
-
             </div>
         );
     };
@@ -210,6 +211,8 @@ export default function UserPage() {
         (
         <>
         <div className={styles["user-page-main-box"]}>
+
+        {contextMsg && (<ContextMessage message={contextMsg} fadeOut={fadeOut}/>)}
 
         <div className={styles["center-upper-elements"]}>
             <div

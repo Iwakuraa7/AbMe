@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styles from "../styles/SearchPage.module.css";
 import NavBar from "../components/NavBar";
+import ContextMessage from "../components/ContextMessage";
+import { UserContext } from "../src/contexts/UserContext";
 
 export default function SearchAnimePage() {
+    const {contextMsg, setContextMsg, fadeOut, setFadeOut, showMessage} = useContext(UserContext);
     const [searchInput, setSearchInput] = useState(null);
     const [currentAnimeData, setCurrentAnimeData] = useState(null);
     const [animeData, setAnimeData] = useState(null);
@@ -37,16 +40,15 @@ export default function SearchAnimePage() {
 
         var data = await response.json();
 
-        if(data.succeeded)
-            console.log("Successfully created anime entity");
-        else
-            console.log(data.message);
+        showMessage(data.message);
     }
 
     return (
         <>
         <NavBar/>
         <div className={styles["search-main-box"]}>
+            {contextMsg && (<ContextMessage message={contextMsg} fadeOut={fadeOut}/>)}
+
             <div className={styles["search-input-box"]}>
                 <h1>Add anime to profile</h1>
                 <div className={styles["search-and-button-rel"]}>

@@ -2,8 +2,10 @@ import { useContext, useState } from "react"
 import NavBar from "../components/NavBar";
 import styles from "../styles/SearchPage.module.css";
 import { UserContext } from "../src/contexts/UserContext.jsx";
+import ContextMessage from "../components/ContextMessage.jsx";
 
 export default function SearchMoviePage() {
+    const {contextMsg, setContextMsg, fadeOut, setFadeOut, showMessage} = useContext(UserContext);
     const [searchInput, setSearchInput] = useState(null);
     const [mediaData, setMediaData] = useState(null);
     const [currentMedia, setCurrentMedia] = useState(null);
@@ -40,16 +42,15 @@ export default function SearchMoviePage() {
 
         var data = await response.json();
 
-        if(data.succeeded)
-            console.log("Successfully created new media data");
-        else
-            console.log(data.message);
+        showMessage(data.message);
     }
 
     return (
         <>
         <NavBar/>
         <div className={styles["search-main-box"]}>
+            {contextMsg && (<ContextMessage message={contextMsg} fadeOut={fadeOut}/>)}
+
             <div className={styles["search-input-box"]}>
                 <h1>Add movie or show to profile</h1>
                 <div className={styles["search-and-button-rel"]}>

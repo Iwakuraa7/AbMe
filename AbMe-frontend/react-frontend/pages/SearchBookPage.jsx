@@ -2,9 +2,10 @@ import { useContext, useState } from "react"
 import styles from "../styles/SearchPage.module.css"
 import NavBar from "../components/NavBar";
 import { UserContext } from "../src/contexts/UserContext.jsx";
+import ContextMessage from "../components/ContextMessage.jsx";
 
 export default function SearchBookPage() {
-    const { API_KEY } = useContext(UserContext);
+    const {API_KEY, contextMsg, setContextMsg, fadeOut, setFadeOut, showMessage} = useContext(UserContext);
     const notFoundImage = 'https://i.imgur.com/soXyjFr.jpeg';
     const [searchInput, setSearchInput] = useState('');
     const [booksData, setBooksData] = useState(null);
@@ -41,10 +42,7 @@ export default function SearchBookPage() {
         
             var data = await response.json();
         
-            if(data.succeeded)
-                console.log(data.message);
-            else
-                console.error(data.message);
+            showMessage(data.message);
         }
         catch(err)
         {
@@ -56,6 +54,8 @@ export default function SearchBookPage() {
         <>
         <NavBar/>
         <div className={styles["search-main-box"]}>
+            {contextMsg && (<ContextMessage message={contextMsg} fadeOut={fadeOut}/>)}
+
             <div className={styles["search-input-box"]}>
                 <h1>Add book to profile</h1>
                 <div className={styles["search-and-button-rel"]}>

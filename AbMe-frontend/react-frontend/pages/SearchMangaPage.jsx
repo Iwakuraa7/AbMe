@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styles from "../styles/SearchPage.module.css";
 import NavBar from "../components/NavBar";
+import { UserContext } from "../src/contexts/UserContext.jsx";
+import ContextMessage from "../components/ContextMessage.jsx";
 
 export default function SearchMangaPage() {
+    const {contextMsg, setContextMsg, fadeOut, setFadeOut, showMessage} = useContext(UserContext);
     const [searchInput, setSearchInput] = useState(null);
     const [currentMangaData, setCurrentMangaData] = useState(null);
     const [mangaData, setMangaData] = useState(null);
@@ -37,16 +40,15 @@ export default function SearchMangaPage() {
 
         var data = await response.json();
 
-        if(data.succeeded)
-            console.log("Successfully created manga entity");
-        else
-            console.log(data.message);        
+        showMessage(data.message);      
     }
 
     return (
         <>
         <NavBar/>
         <div className={styles["search-main-box"]}>
+            {contextMsg && (<ContextMessage message={contextMsg} fadeOut={fadeOut}/>)}
+
             <div className={styles["search-input-box"]}>
                 <h1>Add manga to profile</h1>
                 <div className={styles["search-and-button-rel"]}>

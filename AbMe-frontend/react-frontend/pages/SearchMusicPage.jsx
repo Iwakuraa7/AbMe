@@ -2,9 +2,11 @@ import { useContext, useEffect, useState } from "react"
 import NavBar from "../components/NavBar"
 import styles from "../styles/SearchPage.module.css"
 import { UserContext } from "../src/contexts/UserContext";
+import ContextMessage from "../components/ContextMessage";
 
 export default function SearchMusic() {
-    const {CLIENT_ID, CLIENT_SECRET, UiMsg, setUiMsg} = useContext(UserContext);
+    const {contextMsg, setContextMsg, fadeOut, setFadeOut, showMessage} = useContext(UserContext);
+    const {CLIENT_ID, CLIENT_SECRET} = useContext(UserContext);
     const [searchInput, setSearchInput] = useState('');
     const [albums, setAlbums] = useState(null);
     const [tracks, setTracks] = useState(null);
@@ -59,12 +61,8 @@ export default function SearchMusic() {
         })
 
         var data = await response.json();
-        if(data.succeeded) {
-            setUiMsg(data.message);
-        }
-        else {
-            console.log(data.message);
-        }
+        
+        showMessage(data.message);
     }
 
     async function addTrackData(musicData) {
@@ -83,7 +81,7 @@ export default function SearchMusic() {
 
         var data = await response.json();
         if(data.succeeded) {
-            console.log(data.message);
+            showMessage(data.message);
         }
         else {
             console.log(data.message);
@@ -94,6 +92,8 @@ export default function SearchMusic() {
         <>
         <NavBar/>
         <div className={styles["search-main-box"]}>
+            {contextMsg && (<ContextMessage message={contextMsg} fadeOut={fadeOut}/>)}
+
             <div className={styles["search-input-box"]}>
                 <h1>Add music to profile</h1>
                 <div className={styles["search-and-button-rel"]}>
