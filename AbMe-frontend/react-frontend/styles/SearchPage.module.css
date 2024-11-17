@@ -5,6 +5,7 @@ body button:hover {
 }
 
 .search-main-box {
+    position: relative;
     background-color: black;
     display: flex;
     flex-direction: column;
@@ -52,6 +53,7 @@ body button:hover {
 }
 
 .searchBox {
+    position: relative;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -92,4 +94,28 @@ body button:hover {
 
 .center-text-box {
     text-align: center;
+}
+
+.context-msg-box {
+    position: absolute;
+    position: fixed;
+    right: 1px;
+    bottom: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20vw;
+    height: 6vh;
+    text-align: center;
+    background-color: black;
+    color: snow;
+    outline: 1px solid snow;
+    font-size: 1em;
+    font-weight: 500;
+    z-index: 1;
+    transition: opacity 0.6s ease-in-out;
+}
+
+.fade-out {
+    opacity: 0;
 }
