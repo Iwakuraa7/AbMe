@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AbMe_backend.Controllers
 {
-    [Route("api/book")]
+    [Route("api/literature")]
     [ApiController]
     public class BookEntityController : ControllerBase
     {
