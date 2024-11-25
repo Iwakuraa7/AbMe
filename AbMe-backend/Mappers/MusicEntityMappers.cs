@@ -25,9 +25,7 @@ namespace AbMe_backend.Mappers
             {
                 Id = musicEntity.Id,
                 Title = musicEntity.Title,
-                ArtistName = musicEntity.ArtistName,
                 ImageUrl = musicEntity.ImageUrl,
-                AppUserId = musicEntity.AppUserId
             };
         }
     }

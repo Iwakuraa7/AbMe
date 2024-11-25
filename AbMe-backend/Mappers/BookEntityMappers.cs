@@ -25,9 +25,7 @@ namespace AbMe_backend.Mappers
             {
                 Id = bookModel.Id,
                 Title = bookModel.Title,
-                Author = bookModel.Author,
                 ImageUrl = bookModel.ImageUrl,
-                AppUserId = bookModel.AppUserId
             };
         }
     }
