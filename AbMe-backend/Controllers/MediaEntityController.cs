@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AbMe_backend.Controllers
 {
-    [Route("api/movie")]
+    [Route("api/media")]
     [ApiController]
     public class MediaEntityController : ControllerBase
     {
