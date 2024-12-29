@@ -1,0 +1,21 @@
+
+{
+    "region" : "eu-north-1",
+    "profile" : "iwakuraa7",
+    "configuration" : "Release",
+    "framework"     : "net8.0",
+    "function-name" : "AbMe-API",
+    "function-description" : "",
+    "package-type"         : "Zip",
+    "function-handler"     : "AbMe-backend",
+    "function-memory-size" : 512,
+    "function-role"        : "arn:aws:iam::390844782578:role/service-role/AbMe-API-role-5vm7bj3x",
+    "function-timeout"     : 15,
+    "function-runtime"     : "dotnet8",
+    "function-architecture" : "x86_64",
+    "function-subnets"      : "",
+    "function-security-groups" : "",
+    "tracing-mode"             : "PassThrough",
+    "environment-variables"    : "",
+    "image-tag"                : ""
+}
